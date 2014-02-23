@@ -1,0 +1,135 @@
+/*
+ * Welcome to Compass.
+ * * In this file you should write your main styles. (or centralize your imports)
+ * * Import this file using the following HTML or equivalent:
+ * * <link href="/css/screen.css" media="screen, projection" rel="stylesheet" type="text/css" />
+ */
+/*
+ * Welcome to Compass.
+ * * In this file you should write your variables used in main styles.
+ */
+body {
+  font-family: arial; }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal; }
+
+h1 {
+  font-size: 24px;
+  line-height: 24px;
+  padding: 0 0 6px; }
+
+button,
+input,
+select,
+textarea {
+  font-family: arial; }
+
+.control-group .help-inline,
+.control-group.error .help-block,
+.control-group.error .help-inline,
+.control-group.error > label,
+.controls.error input,
+.help-inline {
+  color: #b94a48; }
+
+.control-group.error .checkbox,
+.control-group.error .radio,
+.control-group.error input,
+.control-group.error select,
+.control-group.error textarea,
+.controls.error .cehckbox,
+.controls.error .radio,
+.controls.error input,
+.controls.error select,
+.controls.error textarea,
+.error input,
+.error select,
+input.error,
+select.error {
+  color: #b94a48;
+  border-color: #b94a48; }
+
+.navbar .nav .active > a,
+.navbar .nav .active > a:hover,
+.navbar .nav a:hover {
+  background-color: #4eb857; }
+
+.navbar .nav > li > a {
+  color: #cccccc; }
+
+.navbar .nav > li > a {
+  padding: 10px 10px 11px; }
+
+#mainmenu {
+  background: url(green) repeat-x scroll left top white; }
+
+.navbar-inner {
+  background: #333333; }
+
+#footer {
+  border-top: 1px solid #cccccc;
+  font-size: 13px;
+  text-align: center;
+  padding: 10px 0px 0px 0px; }
+
+#content {
+  padding: 0px 0px;
+  min-height: 380px; }
+
+#page {
+  border: none; }
+
+#logo {
+  padding: 18px 20px;
+  font-size: 24px; }
+
+  .breadCrumb .breadcrumb {
+    background: none repeat scroll 0 0 transparent;
+    border: medium none;
+    margin: 0 0 10px;
+    padding: 0; }
+  .breadCrumb .divider {
+    font-size: 12px;
+    font-weight: bold;
+    color: #333333; }
+
+span.required {
+  color: red; }
+
+.form {
+  padding: 10px 0px 0px 0px; }
+
+.form-horizontal .rememberMe label {
+  display: inline;
+  float: none; }
+
+.container .span8 {
+  margin-left: 0px; }
+
+.form-horizontal .rememberMe input {
+  margin-top: 0px; }
+
+.form-horizontal .control-label {
+  text-align: left; }
+
+.language {
+  float: right;
+  padding-top: 12px; }
+  .language select {
+    width: 135px; }
+  .language form {
+    margin: 0px;
+    padding: 0px; }
+
+.container.grid {
+  padding: 15px 0px 0px 0px; }
+
+.container .well {
+  padding: 9px; }
+

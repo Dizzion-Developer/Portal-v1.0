@@ -1,0 +1,8 @@
+2014/02/23 10:18:42 [error] [system.db.CDbCommand] Error in preparing SQL: DELETE FROM YiiSession WHERE expire<1393175922
+in /var/www/html/dizzion/github/Portal/protected/controllers/ApplicationController.php (32)
+in /var/www/html/dizzion/github/Portal/protected/modules/user/controllers/AuthenticationController.php (28)
+in /var/www/html/dizzion/github/Portal/index.php (14)
+2014/02/23 10:18:42 [error] [system.db.CDbCommand] CDbCommand::execute() failed: CDbCommand failed to prepare the SQL statement: SQLSTATE[HY000]: General error: 1 no such table: YiiSession. The SQL statement executed was: DELETE FROM YiiSession WHERE expire<1393175922.
+in /var/www/html/dizzion/github/Portal/protected/controllers/ApplicationController.php (32)
+in /var/www/html/dizzion/github/Portal/protected/modules/user/controllers/AuthenticationController.php (28)
+in /var/www/html/dizzion/github/Portal/index.php (14)
