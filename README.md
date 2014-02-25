@@ -13,6 +13,7 @@ To move from version Dizzion-1.0v to Dizzion-1.1v:
 3. Click on Import menu and browse for migration_script.sql that is located in root directory(Portal)
 4. Click on 'Go' to import the script into dizzion DB
 5. Replace the existing source code with the new source code
-
+6. Enable php5-curl in the server
+7. Have renamed the file config/main.php to config/dev_main.php
 
 
