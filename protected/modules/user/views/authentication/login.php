@@ -74,7 +74,12 @@
                 <div class="region region-latest-news">
                     <div class="block block-iigfeedsview" id="block-iigfeedsview-storieslist">
                         <h2><none></none></h2>  
-                        <?php for ($i = 0; $i < $newscount; $i++) { ?>	
+                        <?php 
+                        if($error_in_notification){
+                            $error_msg = explode('||', $news); 
+                            echo "<div class='notification_error'>".$error_msg[1]."<div>";
+                        } else {
+                        for ($i = 0; $i < $newscount; $i++) { ?>	
                             <div class="content">
                                 <div class="viewNewsApps">
                                     <div class="slide" style="display: block;">
@@ -89,7 +94,7 @@
                                     </div>		
                                 </div>
                             </div>
-<?php } ?>  
+                        <?php } } ?>  
                     </div>
                 </div>
             </div></div></div> 
