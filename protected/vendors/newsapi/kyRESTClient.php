@@ -129,7 +129,7 @@ class kyRESTClient implements kyRESTClientInterface {
 			CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_SSL_VERIFYPEER => false,
 			CURLOPT_SSL_VERIFYHOST => false,
-			CURLOPT_CONNECTTIMEOUT => 2,
+			CURLOPT_CONNECTTIMEOUT => 10,  // Increasing from 2 o 10 since time out issue often occurs
 			CURLOPT_FORBID_REUSE => true,
 			CURLOPT_FRESH_CONNECT => true,
 			CURLOPT_URL => $url
@@ -179,8 +179,6 @@ class kyRESTClient implements kyRESTClientInterface {
 
 		if ($response === false)
 			throw new kyException(sprintf('CURL error: %s (%s)', curl_error($curl_handle), curl_errno($curl_handle)));
-			
-		
 
 		$http_status = curl_getinfo($curl_handle, CURLINFO_HTTP_CODE);
 		if ($http_status != 200)
