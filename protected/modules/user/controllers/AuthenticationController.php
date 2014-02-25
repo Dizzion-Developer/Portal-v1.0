@@ -17,7 +17,7 @@ class AuthenticationController extends UserController {
      */
 
     public function allowedActions() {
-        return 'login,dashboard,logout, latestnews';
+        return 'login,logout';
     }
 
     /*
@@ -35,6 +35,7 @@ class AuthenticationController extends UserController {
      */
     public function actionLogin() {
         $this->layout = '//layouts/dizzion_login';
+        $error_in_notification =false;
         $model = new LoginForm;
         if (isset($_POST['LoginForm'])) {
             $model->attributes = $_POST['LoginForm'];
@@ -48,7 +49,14 @@ class AuthenticationController extends UserController {
             }
         }
         $news = $this->latestnews();
-        $this->render('login', array('model' => $model, 'news' => $news));
+        //For handling exception in notification
+        if((count($news))<=1){
+            $error_news = explode('||', $news);
+            if($error_news[0]=='error'){
+                $error_in_notification = true;
+            }
+        }
+        $this->render('login', array('model' => $model, 'news' => $news,'error_in_notification'=>$error_in_notification));
     }
 
     /**
@@ -68,20 +76,23 @@ class AuthenticationController extends UserController {
      */
     public function categoryList($app_list) {
         $category_list = array();
-        foreach ($app_list as $key => $value) {
-            $categories[$key] = $value['category_id'] . '||' . $value['category_name'];
-        }
-        $unique_category = array_unique($categories);
-        // First categroy is All which lists all applications
-        $category_list[0]['id'] = 0;
-        $category_list[0]['name'] = AppConstants::CATEGORY_ALL;
-        $i = 1;
-        // Category based classification falls after 'All'
-        foreach ($unique_category as $key => $value) {
-            $category_info = explode("||", $value);
-            $category_list[$i]['id'] = $category_info[0];
-            $category_list[$i]['name'] = $category_info[1];
-            $i++;
+        if (count($app_list) > 0) {
+            $category_list = array();
+            foreach ($app_list as $key => $value) {
+                $categories[$key] = $value['category_id'] . '||' . $value['category_name'];
+            }
+            $unique_category = array_unique($categories);
+            // First categroy is All which lists all applications
+            $category_list[0]['id'] = 0;
+            $category_list[0]['name'] = AppConstants::CATEGORY_ALL;
+            $i = 1;
+            // Category based classification falls after 'All'
+            foreach ($unique_category as $key => $value) {
+                $category_info = explode("||", $value);
+                $category_list[$i]['id'] = $category_info[0];
+                $category_list[$i]['name'] = $category_info[1];
+                $i++;
+            }
         }
         return $category_list;
     }
@@ -107,7 +118,7 @@ class AuthenticationController extends UserController {
                 if ($app_details['iframe'] == 'Y')
                     $app_menu.='<li><a href="' . Yii::app()->createUrl('user/authentication/application/appId/') . '/' . base64_encode($app_details['id']) . '" data-toggle="tooltip" data-placement="left" title="' . addslashes($app_details['name']) . '">' . $app_details['icon'] . "  " . addslashes($displayWord) . '</a></li>';
                 else
-                    $app_menu.='<li><a href="' . $app_details['url']. '" target="_blank" data-toggle="tooltip" data-placement="left" title="' . addslashes($app_details['name']) . '">' . $app_details['icon'] . "  " . addslashes($displayWord) . '</a></li>';
+                    $app_menu.='<li><a href="' . $app_details['url'] . '" target="_blank" data-toggle="tooltip" data-placement="left" title="' . addslashes($app_details['name']) . '">' . $app_details['icon'] . "  " . addslashes($displayWord) . '</a></li>';
             }
         }
         $appUrl = AppInfoMasterForm::model()->findByPk(base64_decode($appId))->getAttribute('url');
@@ -147,7 +158,7 @@ class AuthenticationController extends UserController {
                 $active_class = ($i == 0) ? 'active' : '';
                 $appHtml .= '<div class="item ' . $active_class . '">';
                 for ($j = $i * 9, $k = 0; ($k < 9 && $j < count($app_info)); $k++, $j++) {
-                    $icon_color = ($app_info[$j]['icon_color']!='')?$app_info[$j]['icon_color']:'';
+                    $icon_color = ($app_info[$j]['icon_color'] != '') ? $app_info[$j]['icon_color'] : '';
                     $tile_class = AppConstants::$APP_TILE[0];  //By default one color for all tiles 
                     if ($app_info[$i]['type'] == 'Y') {
                         $appHtml .='<div onclick="window.location.href = ' . "'" . Yii::app()->createUrl('user/authentication/application/appId/') . '/' . base64_encode($app_info[$j]['id']) . "'" . '" 
@@ -155,7 +166,7 @@ class AuthenticationController extends UserController {
                     } else {
                         $appHtml .='<a href="' . $app_info[$j]['url'] . '" target="_blank" class="span3">';
                     }
-                    $appHtml .='<div class="dash-tile ' . $tile_class . ' clearfix" style="background-color:'.$icon_color.'">';
+                    $appHtml .='<div class="dash-tile ' . $tile_class . ' clearfix" style="background-color:' . $icon_color . '">';
                     $appHtml .='<div class="dash-tile-header">' . $app_info[$j]['name'];
                     $appHtml .= '</div>';
                     $appHtml .= '<div class="dash-tile-icon">' . $app_info[$j]['icon'] . '</div>';
@@ -182,13 +193,17 @@ class AuthenticationController extends UserController {
      * @desc Latest News from API.
      */
     public function latestnews() {
-        $this->layout = '//layouts/dizzion_login';
-        $model = new LoginForm;
-        require_once("kyIncludes.php");
-        kyConfig::set(new kyConfig(AppConstants::API_URL, AppConstants::API_KEY, AppConstants::SECRET_KEY));
-        kyConfig::get()->setDebugEnabled(true);
-        $news = kyNewsItem::getAll()->filterBy("isExpired","");	
-        return $news;
+        try {
+            $this->layout = '//layouts/dizzion_login';
+            $model = new LoginForm;
+            require_once("kyIncludes.php");
+            kyConfig::set(new kyConfig(AppConstants::API_URL, AppConstants::API_KEY, AppConstants::SECRET_KEY));
+            kyConfig::get()->setDebugEnabled(true);
+            $news = kyNewsItem::getAll()->filterBy("isExpired", "");
+            return $news;
+        } catch (Exception $e) {
+            return "error||".$e->getmessage();
+        }
     }
 
 }
