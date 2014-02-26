@@ -1373,10 +1373,13 @@ and (max-width : 480px) {
     position: relative !important;
     width: 100% !important;
 	}
-	#login-container1
-	{
-	
+	.customer_header #nav-info {
+    margin-left: 0 !important;
 	}
+	.customer_header .page-header {
+    margin-left: 0 !important;
+	}
+
 }
 /* Iphone5 (portrait and landscape) ----------- */
 @media only screen and (min-width : 320px) and (max-width : 568px){
@@ -1498,7 +1501,10 @@ and (max-width : 480px) {
 	}
 	.colorpicker.dropdown-menu {
     margin: 0 -20px !important;
-}
+	}
+	.customer_header .page-header {
+    margin-left: 0 !important;
+	}
 
  
 }
@@ -1620,7 +1626,7 @@ and (max-width : 480px) {
 }
 	.item
 	{
-	left:30px !important;
+	left:10px !important;
 	}
 	#category-sidebar {
     position: relative !important;
@@ -1637,6 +1643,12 @@ and (max-width : 480px) {
 	left:0 !important; 
 	margin-top:7px !important;
 	
+	}
+	.customer_header .page-header {
+    margin-left: 0 !important;
+	}
+	.customer_header #nav-info {
+    margin-left: 0 !important;
 	}
 }
 /**End of Media Queries**/
