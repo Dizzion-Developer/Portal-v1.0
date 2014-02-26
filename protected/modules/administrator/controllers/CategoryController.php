@@ -25,7 +25,7 @@ class CategoryController extends AdministratorController {
                 $model->attributes = $_POST['CategoryMasterForm'];
                 if ($model->validate()) {
                     $model->status = AppConstants::ACTIVE;
-                    $model->created_by = 1; //Hard coded as 1. After login and user module is done it needs to be changed to Yii::app()->user->id
+                    $model->created_by = Yii::app()->user->id;
                     $model->created_dt = new CDbExpression('NOW()');
                     if ($model->save()) {
                         $category_id = $model->getPrimaryKey();
@@ -72,7 +72,7 @@ class CategoryController extends AdministratorController {
         if (isset($_POST['CategoryMasterForm'])) {
             $model->attributes = $_POST['CategoryMasterForm'];
             if ($model->validate()) {
-                $model->modified_by = 1; //Hard coded as 1. After login and user module is done it needs to be changed to Yii::app()->user->id
+                $model->modified_by = Yii::app()->user->id;
                 $model->modified_dt = new CDbExpression('NOW()');
                 if ($model->save()) {
                     Yii::app()->user->setFlash('notice', Yii::t('app', AppConstants::CATEGORY_UPDATED_SUCCESS));
@@ -109,7 +109,7 @@ class CategoryController extends AdministratorController {
             array(
                 'class' => 'EButtonColumn',
                 'htmlOptions' => array('width' => '60', 'align' => 'middle'),
-                'template' => '{edit} {activate} {deactivate}',
+                'template' => '{edit} {Delete}',
                 'header' => Yii::t('EDataTables.edt', 'Actions'),
                 'buttons' => array(
                     'edit' => array(
@@ -124,36 +124,19 @@ class CategoryController extends AdministratorController {
                             return true;
                             }'
                     ),
-                    'deactivate' => array(
+                    'Delete' => array(
                         'options' => array('class' => 'deactivateCls hidden-phone'),
                         'imageUrl' => Yii::app()->request->baseUrl . '/images/deactivate.png',
-                        'url' => 'Yii::app()->createUrl("administrator/category/statuschange", array("categoryId"=>$data->id))',
-                        //'visible' => '($data->status==AppConstants::ACTIVE)?true:false',
-                        'visible' => 'false',
+                        'url' => 'Yii::app()->createUrl("administrator/category/delete", array("categoryId"=>$data->id))',
                         'click' => 'function(){
-                            if(confirm("Are you sure to deactivate this category?")){
+                            if(confirm("Are you sure to delete this category?")){
                                   var url = $(this).attr("href");
                                   var categoryId = getURLParameter(url, "categoryId");
-                                  statusChange(categoryId);  
+                                  deleteCategory(categoryId);  
                             }
                             return false;
                             }',
                         'callback' => 'js:function(e){e.data.that.eDataTables("refresh"); return false;}',
-                    ),
-                    'activate' => array(
-                        'options' => array('class' => 'deactivateCls hidden-phone'),
-                        'imageUrl' => Yii::app()->request->baseUrl . '/images/activeicon1.png',
-                        'url' => 'Yii::app()->createUrl("administrator/category/statuschange", array("categoryId"=>$data->id))',
-                        //'visible' => '($data->status==AppConstants::DEACTIVE)?true:false',
-                        'visible' => 'false',
-                        'click' => 'function(){
-                            if(confirm("Are you sure to activate this category?")){
-                                  var url = $(this).attr("href");
-                                  var categoryId = getURLParameter(url, "categoryId");
-                                  statusChange(categoryId);  
-                            }
-                            return false;
-                            }',
                     ),
                 ),
             ),
@@ -195,7 +178,7 @@ class CategoryController extends AdministratorController {
 
     /**
      * @desc Changes the status of the category
-     * @param $orgId - Unique Id of the category
+     * @param $categoryId - Unique Id of the category
      * @return String - Status message
      */
     public function actionStatuschange($categoryId) {
@@ -208,6 +191,28 @@ class CategoryController extends AdministratorController {
         }else {
             $response['message'] = ErrorConstants::ERROR_IN_SAVING;
             $response['status'] = 'failure';
+        }
+        echo json_encode($response);
+    }
+
+    /**
+     * @desc Deletes the category
+     * @param $categoryId - Unique Id of the category
+     * @return String - Status message
+     */
+    public function actionDelete($categoryId) {
+        $app_mapped = AppInfoMasterForm::model()->findByAttributes(array('category_id' => $categoryId));
+        if ($app_mapped) {
+            $response['message'] = ErrorConstants::CANNOT_DELETE_CATEGORY;
+            $response['status'] = 'failure';
+        } else {
+            if (CategoryMasterForm::deleteCategory($categoryId)) {
+                $response['message'] = AppConstants::CATEGORY_DELETED_SUCCESS;
+                $response['status'] = 'success';
+            } else {
+                $response['message'] = ErrorConstants::ERROR_IN_DELTETION;
+                $response['status'] = 'failure';
+            }
         }
         echo json_encode($response);
     }
