@@ -158,9 +158,22 @@ class CategoryMasterForm extends CategoryMaster {
      * @desc Function lists all category that are in active state
      * @return array - id & category_name as key value pair
      */
-    public function categoryList(){
+    public function categoryList() {
         return CHtml::listData(CategoryMasterForm::model()
-                ->findAllByAttributes(array('status'=>  AppConstants::ACTIVE)),'id','category_name');
+                                ->findAllByAttributes(array('status' => AppConstants::ACTIVE)), 'id', 'category_name');
+    }
+ 
+    /**
+     * @desc Function deletes category based on the given category id
+     * @param $categoryId - category Id
+     * @return bool - true/false
+     */
+    public function deleteCategory($categoryId) {
+        $delete_status = CategoryMasterForm::model()->deleteByPk($categoryId);
+        if ($delete_status)
+            return true;
+        else
+            return false;
     }
 
 }
