@@ -44,7 +44,7 @@
     // function to change status of the category
     function statusChange(categoryId) {
         $.ajax({
-            url: '<?php echo Yii::app()->createUrl('admin/category/statuschange/categoryId/') ?>' + '/' + categoryId,
+            url: '<?php echo Yii::app()->createUrl('administrator/category/statuschange/categoryId/') ?>' + '/' + categoryId,
             type: 'GET',
             dataType: 'JSON',
             success: function(message) {
@@ -52,6 +52,29 @@
                 $('#' + table_id).dataTable().fnDraw();
                 $('.alert-block').hide();
                 if (message.status == 'success') {
+                    $(".custom-error-flash-message").hide();
+                    $("#custom-flash-message").html(message.message);
+                    $(".custom-flash-message").show();
+                } else {
+                    $(".custom-flash-message").hide();
+                    $("#custom-error-flash-message").html(message.message);
+                    $(".custom-error-flash-message").show();
+                }
+            }
+        });
+    }
+    //Function to delete the category
+    function deleteCategory(categoryId){
+       $.ajax({
+            url: '<?php echo Yii::app()->createUrl('administrator/category/delete/categoryId/') ?>' + '/' + categoryId,
+            type: 'GET',
+            dataType: 'JSON',
+            success: function(message) {
+                var table_id = $('#category table[id]').attr('id');
+               // $('#' + table_id).dataTable().fnDraw();
+                $('.alert-block').hide();
+                if (message.status == 'success') {
+                    $('#' + table_id).dataTable().fnDeleteRow();
                     $(".custom-error-flash-message").hide();
                     $("#custom-flash-message").html(message.message);
                     $(".custom-flash-message").show();
