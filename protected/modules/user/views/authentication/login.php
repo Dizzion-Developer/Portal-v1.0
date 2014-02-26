@@ -78,10 +78,10 @@
                         if($error_in_notification){
                             $error_msg = explode('||', $news); 
                             echo "<div class='notification_error'>".$error_msg[1]."<div>";
-                        } else {
-                        for ($i = 0; $i < $newscount; $i++) { ?>	
+                        } else { ?>
                             <div class="content">
                                 <div class="viewNewsApps">
+                                   <?php for ($i = 0; $i < $newscount; $i++) { ?>
                                     <div class="slide" style="display: block;">
                                         <div class="info">
                                             <div><a target="_blank" href="http://mysupport.dizzion.com/News/NewsItem/View/<?php echo $news[$i]->id; ?>"><?php echo $news[$i]->subject; ?></a></div>
@@ -91,10 +91,11 @@
                                                 echo date("F d, Y h:i A", strtotime($originalDate));                                                                                          
                                               ?></p>
                                         </div>
-                                    </div>		
+                                    </div>
+                                    <?php } ?>
                                 </div>
                             </div>
-                        <?php } } ?>  
+                        <?php } ?>  
                     </div>
                 </div>
             </div></div></div> 
