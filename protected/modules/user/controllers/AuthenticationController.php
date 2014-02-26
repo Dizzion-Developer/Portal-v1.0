@@ -200,7 +200,8 @@ class AuthenticationController extends UserController {
             kyConfig::set(new kyConfig(AppConstants::API_URL, AppConstants::API_KEY, AppConstants::SECRET_KEY));
             kyConfig::get()->setDebugEnabled(true);
             $news = kyNewsItem::getAll()->filterBy("isExpired", "");
-            return $news;
+            $ordered_news=$news->orderBy('getDateline',false);
+            return $ordered_news;
         } catch (Exception $e) {
             return "error||".$e->getmessage();
         }
