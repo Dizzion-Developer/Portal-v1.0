@@ -14,6 +14,7 @@ class ErrorConstants {
     const ERROR_IN_APP_SAVE = 'Error in saving application information';
     const ERROR_IN_APP_UPDATE = 'Error in updating application information';
     const ERROR_IN_SAVING = 'Error occurred while saving the details.';
+    const ERROR_IN_DELTETION = 'Error occurred while deleting the details.';
     const UPLOAD_ICON = 'Please choose an Icon.';
     
     /* Organization Management */
@@ -51,6 +52,7 @@ class ErrorConstants {
     /* Category management constants starts */
     const ERROR_IN_CATEGORY_SAVE = 'Error in saving category information';
     const ERROR_IN_CATEGORY_UPDATE = 'Error in updating category information';
+    const CANNOT_DELETE_CATEGORY =  'Category cannot be deleted since it is already mapped with applications';
 
     /* Category management constants ends */
 
