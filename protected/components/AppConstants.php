@@ -78,6 +78,7 @@ class AppConstants {
     const CATEGORY_UPDATED_SUCCESS = 'Category information updated successfully';
     const CATEGORY_DEACTIVATED_SUCCESS = 'Category deactivated successfully';
     const CATEGORY_ACTIVATED_SUCCESS = 'Category activated successfully';
+    const CATEGORY_DELETED_SUCCESS = 'Category deleted successfully';
     
     /* Category management constants ends */
 	
@@ -87,4 +88,6 @@ class AppConstants {
     const SECRET_KEY = 'NzNkOGYwYmEtYzUzYy1hZjU0LWI5NmYtNTQ0MjI2NmQwYzdiOTc0NDI2OWQtODhlMi05YjE0LTY5MDUtNDY4ZmNmMTgwNzMz';
 
     const DEFAULT_APP_TILE_COLOR = '#db4a39';
+   
+    public static $THEME_COLORS = array('default'=>'#ff9c03','deepblue'=>'#284e99','deepwood'=>'#594117','deeppurple'=>'#6B2180','deepgreen'=>'#365917');
 }
