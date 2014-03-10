@@ -35,11 +35,12 @@ class AuthenticationController extends UserController {
      */
     public function actionLogin() {
         $this->layout = '//layouts/dizzion_login';
-        $error_in_notification =false;
+        $error_in_notification = false;
         $model = new LoginForm;
         if (isset($_POST['LoginForm'])) {
             $model->attributes = $_POST['LoginForm'];
             if ($model->validate() && $model->login()) {
+               
                 // Based on the user rule takes to the corresponding dashboard page
                 if (CommonFunction::getRole() == AppConstants::$ROLES['CUST'])
                     $this->redirect(Yii::app()->createUrl('user/authentication/dashboard'));
@@ -48,15 +49,15 @@ class AuthenticationController extends UserController {
                     $this->redirect(Yii::app()->createUrl('administrator/applications/dashboard'));
             }
         }
-        $news = $this->latestnews();
+        $newsDetails = $this->latestnews();
         //For handling exception in notification
-        if((count($news))<=1){
-            $error_news = explode('||', $news);
-            if($error_news[0]=='error'){
+        if ((count($newsDetails->channel->item)) <= 1) {
+            $error_news = explode('||', $newsDetails);
+            if ($error_news[0] == 'error') {
                 $error_in_notification = true;
             }
         }
-        $this->render('login', array('model' => $model, 'news' => $news,'error_in_notification'=>$error_in_notification));
+        $this->render('login', array('model' => $model, 'news' => $newsDetails, 'error_in_notification' => $error_in_notification));
     }
 
     /**
@@ -194,16 +195,20 @@ class AuthenticationController extends UserController {
      */
     public function latestnews() {
         try {
-            $this->layout = '//layouts/dizzion_login';
-            $model = new LoginForm;
-            require_once("kyIncludes.php");
-            kyConfig::set(new kyConfig(AppConstants::API_URL, AppConstants::API_KEY, AppConstants::SECRET_KEY));
-            kyConfig::get()->setDebugEnabled(true);
-            $news = kyNewsItem::getAll()->filterBy("isExpired", "");
-            $ordered_news=$news->orderBy('getDateline',false);
-            return $ordered_news;
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, AppConstants::NOTIFICATION_FEED_URL);
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $news_xml_str = curl_exec($ch);
+            curl_close($ch);
+            date_default_timezone_set(AppConstants::NOTIFICATION_TIME_ZONE);
+            //$news_xml_str = file_get_contents(AppConstants::NOTIFICATION_FEED_URL);
+            $news_xml = new SimpleXMLElement($news_xml_str);
+            for($i=0;$i<count($news_xml->channel->item);$i++)
+                $news_xml->channel->item[$i]->pubDate = date("F d, Y h:i A", strtotime($news_xml->channel->item[$i]->pubDate));
+            return $news_xml;
         } catch (Exception $e) {
-            return "error||".$e->getmessage();
+            return "error||" . $e->getmessage();
         }
     }
 
