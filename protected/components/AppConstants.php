@@ -83,11 +83,21 @@ class AppConstants {
     /* Category management constants ends */
 	
 	/* Latest News API Credentials */
+    const NOTIFICATION_FEED_URL = 'http://mysupport.dizzion.com/rss/index.php?/News/Feed';
+    const NOTIFICATION_TIME_ZONE = 'US/Mountain';
+    
     const API_URL = 'http://mysupport.dizzion.com/api/index.php?e=';
     const API_KEY = 'eda2f681-6d5b-0a14-e5d1-3b31d5783dcf';
     const SECRET_KEY = 'NzNkOGYwYmEtYzUzYy1hZjU0LWI5NmYtNTQ0MjI2NmQwYzdiOTc0NDI2OWQtODhlMi05YjE0LTY5MDUtNDY4ZmNmMTgwNzMz';
 
     const DEFAULT_APP_TILE_COLOR = '#db4a39';
+    const DEFAULT_THEME_ID = 1;
    
-    public static $THEME_COLORS = array('default'=>'#ff9c03','deepblue'=>'#284e99','deepwood'=>'#594117','deeppurple'=>'#6B2180','deepgreen'=>'#365917');
+    public static $THEME_COLOR_CODES = array('default'=>'#ff9c03','deepblue'=>'#284e99','deepwood'=>'#594117','deeppurple'=>'#6B2180','deepgreen'=>'#365917');
+    public static $THEME_COLORS = array('default'=>'default','deepblue'=>'deepblue','deepwood'=>'deepwood','deeppurple'=>'deeppurple','deepgreen'=>'deepgreen','custom'=>'custom');
+    /* Theme management constants starts */
+    const THEME_SAVED_SUCCESS = 'Theme details saved successfully';
+
+    /* Theme management constants ends */
+    
 }
