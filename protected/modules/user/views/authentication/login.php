@@ -60,7 +60,6 @@
 
     <!-- END Login Form -->
 </div>
-<?php $newscount = count($news); ?>
 <div  id="login-container1">
     <!-- Login Buttons -->
     <div id="login-buttons1">
@@ -81,14 +80,12 @@
                         } else { ?>
                             <div class="content">
                                 <div class="viewNewsApps">
-                                   <?php for ($i = 0; $i < $newscount; $i++) { ?>
+                                   <?php for ($i = 0; $i < count($news->channel->item); $i++) { ?>
                                     <div class="slide" style="display: block;">
                                         <div class="info">
-                                            <div><a target="_blank" href="http://mysupport.dizzion.com/News/NewsItem/View/<?php echo $news[$i]->id; ?>"><?php echo $news[$i]->subject; ?></a></div>
+                                            <div><a target="_blank" href="<?php echo $news->channel->item[$i]->link; ?>"><?php echo $news->channel->item[$i]->title; ?></a></div>
                                             <p><?php
-                                                $originalDate = $news[$i]->dateline;
-                                                date_default_timezone_set('US/Mountain');
-                                                echo date("F d, Y h:i A", strtotime($originalDate));                                                                                          
+                                                echo $news->channel->item[$i]->pubDate;                                                                                   
                                               ?></p>
                                         </div>
                                     </div>
