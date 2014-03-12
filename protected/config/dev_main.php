@@ -57,7 +57,7 @@ return array(
             // enable cookie-based authentication
             'allowAutoLogin' => true,
             'class' => 'RWebUser',
-             'loginUrl'=>array(''),
+             'loginUrl'=>array('user/authentication/login'),
         ),
         'authManager' => array(
             'class' => 'RDbAuthManager', // Provides support authorization item sorting. ...... 
