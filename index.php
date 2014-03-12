@@ -2,7 +2,7 @@
 error_reporting("ALL");
 
 // change the following paths if necessary
-$yii=dirname(__FILE__).'/../../PayodaFramework/Payoda-Yii/yii.php';
+$yii=dirname(__FILE__).'/../PayodaFramework/Payoda-Yii/yii.php';
 $config=dirname(__FILE__).'/protected/config/main.php';
 
 
