@@ -28,6 +28,7 @@ To securely connect ldap:
 1. Import client.crt(located in Portal root. This is the security certificate from testdizzionad server. 
    If any other AD server is connected then that corresponding server certificate must be exported and replaced here) into the location /etc/openldap/cacerts (if cacerts folder does not exist then create one)
 2. Add following lines in /etc/openldap/ldap.conf
+
               TLS_CACERT      /etc/openldap/cacerts/client.crt
               TLS_REQCERT     never
 3. Restart apache server
