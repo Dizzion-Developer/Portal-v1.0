@@ -1,7 +1,3 @@
--- Query to add logo column in organization table
-
-ALTER TABLE `org_master` ADD `logo` VARCHAR( 250 ) NULL AFTER `customer_id` 
-
 -- phpMyAdmin SQL Dump
 -- version 3.4.9
 -- http://www.phpmyadmin.net
@@ -67,6 +63,9 @@ ALTER TABLE `theme_settings`
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
+-- Query to add logo column in organization table
+
+ALTER TABLE `org_master` ADD `logo` VARCHAR( 250 ) NULL AFTER `customer_id`;
 
 
 TRUNCATE TABLE `AuthItem`;
@@ -88,6 +87,7 @@ INSERT INTO `AuthItem` (`name`, `type`, `description`, `bizrule`, `data`) VALUES
 ('Administrator.Applications.Update', 0, NULL, NULL, 'N;'),
 ('Administrator.Category.*', 1, NULL, NULL, 'N;'),
 ('Administrator.Category.Create', 0, NULL, NULL, 'N;'),
+('Administrator.Category.Delete', 0, NULL, NULL, 'N;'),
 ('Administrator.Category.List', 0, NULL, NULL, 'N;'),
 ('Administrator.Category.Statuschange', 0, NULL, NULL, 'N;'),
 ('Administrator.Organisations.Create', 0, NULL, NULL, 'N;'),
@@ -132,6 +132,7 @@ INSERT INTO `AuthItemChild` (`parent`, `child`) VALUES
 ('GlobalAdmin', 'Administrator.Applications.Statuschange'),
 ('GlobalAdmin', 'Administrator.Applications.Update'),
 ('GlobalAdmin', 'Administrator.Category.Create'),
+('GlobalAdmin', 'Administrator.Category.Delete'),
 ('GlobalAdmin', 'Administrator.Category.List'),
 ('GlobalAdmin', 'Administrator.Category.Statuschange'),
 ('GlobalAdmin', 'Administrator.Organisations.Create'),
