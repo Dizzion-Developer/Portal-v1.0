@@ -55,5 +55,10 @@ class ErrorConstants {
     const CANNOT_DELETE_CATEGORY =  'Category cannot be deleted since it is already mapped with applications';
 
     /* Category management constants ends */
+    /* Theme management constants starts */
+    const ORG_NOT_EXIST = 'Organization does not exist';
+    const ERROR_IN_THEME_SAVE = 'Error in saving theme details';
+    
+    /* Theme management constants ends */
 
 }

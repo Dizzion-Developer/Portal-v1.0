@@ -1,11 +1,18 @@
-<div class="custom-flash-message" style="display:none">
-    <div class="alert fade in alert-success"><a data-dismiss="alert" class="close" href="#">×</a>
-        <span id="custom-flash-message"></span>
+<script>
+    $(document).on('click', '.close-custom-msg', function() {
+        $('.custom-messages').hide();
+    });
+</script>
+<div class="custom-messages">
+    <div class="custom-flash-message" style="display:none">
+        <div class="alert fade in alert-success"><a class="close-custom-msg" href="#">×</a>
+            <span id="custom-flash-message"></span>
+        </div>
     </div>
-</div>
-<div class="custom-error-flash-message" style="display:none">
-    <div class="alert fade in alert-error"><a data-dismiss="alert" class="close" href="#">×</a>
-        <span id="custom-error-flash-message"></span>
+    <div class="custom-error-flash-message" style="display:none">
+        <div class="alert fade in alert-error"><a class="close-custom-msg" href="#">×</a>
+            <span id="custom-error-flash-message"></span>
+        </div>
     </div>
 </div>
 <?php

@@ -9,6 +9,7 @@ class UserIdentity extends CUserIdentity {
 
     private $_id;
     private $_displayname;
+    private $_orgid;
 
     /**
      * Authenticates a user.
@@ -59,14 +60,14 @@ class UserIdentity extends CUserIdentity {
         if ($userDet->attributes['status'] == AppConstants::ACTIVE) {
             if (isset($userDet->OrgMasterForm)) {
                 if ($userDet->OrgMasterForm->attributes['status'] == AppConstants::ACTIVE) {
-                    $this->setDashboard($userDet->attributes['id'], $userDet->attributes['first_name']);
+                    $this->setDashboard($userDet->attributes['id'], $userDet->attributes['first_name'], $userDet->attributes['org_id']);
                     return self::ERROR_NONE;
                 } else {
                     Yii::app()->user->setFlash('error', Yii::t('app', ErrorConstants::ORG_NOT_ACTIVE));
                     return self::ERROR_USERNAME_INVALID;
                 }
             } else {
-                $this->setDashboard($userDet->attributes['id'], $userDet->attributes['first_name']);
+                $this->setDashboard($userDet->attributes['id'], $userDet->attributes['first_name'], $userDet->attributes['org_id']);
                 return self::ERROR_NONE;
             }
         } else {
@@ -88,15 +89,25 @@ class UserIdentity extends CUserIdentity {
     public function setDisplayname() {
         Yii::app()->user->setState("Displayname", $this->_displayname);
     }
+    
+        /**
+     * @return the org id
+     */
+    public function setOrgid() {
+        Yii::app()->user->setState("orgid", $this->_orgid);
+    }
+
 
     /**
      * Display the Dashboard when there is no error
      */
-    public function setDashboard($id, $displayname) {
+    public function setDashboard($id, $displayname, $org_id) {
         $this->_id = $id;
         $this->_displayname = $displayname;
+        $this->_orgid = $org_id;
         $this->errorCode = self::ERROR_NONE;
         $this->setDisplayname();
+        $this->setOrgid();
     }
 
 }

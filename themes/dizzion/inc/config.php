@@ -64,5 +64,10 @@ $primary_nav = array(
         'name' => 'User',
         'url' => Yii::app()->createUrl('administrator/users/create'),
         'icon' => 'icon-user'
+    ),
+    array(
+        'name' => 'Color Theme',
+        'url' => Yii::app()->createUrl('administrator/themes/create'),
+        'icon' => 'icon-cog'
     )
 );

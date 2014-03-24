@@ -37,27 +37,42 @@ class AuthenticationController extends UserController {
         $this->layout = '//layouts/dizzion_login';
         $error_in_notification = false;
         $model = new LoginForm;
-        if (isset($_POST['LoginForm'])) {
-            $model->attributes = $_POST['LoginForm'];
-            if ($model->validate() && $model->login()) {
-               
-                // Based on the user rule takes to the corresponding dashboard page
-                if (CommonFunction::getRole() == AppConstants::$ROLES['CUST'])
-                    $this->redirect(Yii::app()->createUrl('user/authentication/dashboard'));
-                else if (CommonFunction::getRole() == AppConstants::$ROLES['GA'] ||
-                        CommonFunction::getRole() == AppConstants::$ROLES['SA'])
-                    $this->redirect(Yii::app()->createUrl('administrator/applications/dashboard'));
+        if (Yii::app()->user->isGuest) {
+            if (isset($_POST['LoginForm'])) {
+                $model->attributes = $_POST['LoginForm'];
+                if ($model->validate() && $model->login()) {
+                    $theme_details = ThemeSettingsForm::model()->findByAttributes(array('org_id' => Yii::app()->user->orgid));
+                    Yii::app()->session['logo'] = OrgMasterForm::model()->findByPk(Yii::app()->user->orgid)->getAttribute('logo');
+                    if (!$theme_details)
+                        Yii::app()->session['theme'] = AppConstants::$THEME_COLORS['default'];
+                    else
+                        Yii::app()->session['theme'] = $theme_details->attributes['type'];
+                    if (Yii::app()->session['theme'] == 'custom') {
+                        Yii::app()->session['header'] = $theme_details->attributes['header'];
+                        Yii::app()->session['hover'] = $theme_details->attributes['hover'];
+                        Yii::app()->session['link'] = $theme_details->attributes['link'];
+                        Yii::app()->session['button'] = $theme_details->attributes['button'];
+                    }
+                    // Based on the user rule takes to the corresponding dashboard page
+                    if (CommonFunction::getRole() == AppConstants::$ROLES['CUST'])
+                        $this->redirect(Yii::app()->createUrl('user/authentication/dashboard'));
+                    else if (CommonFunction::getRole() == AppConstants::$ROLES['GA'] ||
+                            CommonFunction::getRole() == AppConstants::$ROLES['SA'])
+                        $this->redirect(Yii::app()->createUrl('administrator/applications/dashboard'));
+                }
             }
-        }
-        $newsDetails = $this->latestnews();
-        //For handling exception in notification
-        if ((count($newsDetails->channel->item)) <= 1) {
-            $error_news = explode('||', $newsDetails);
-            if ($error_news[0] == 'error') {
-                $error_in_notification = true;
+            $newsDetails = $this->latestnews();
+            //For handling exception in notification
+            if ((count($newsDetails->channel->item)) <= 1) {
+                $error_news = explode('||', $newsDetails);
+                if ($error_news[0] == 'error') {
+                    $error_in_notification = true;
+                }
             }
+            $this->render('login', array('model' => $model, 'news' => $newsDetails, 'error_in_notification' => $error_in_notification));
         }
-        $this->render('login', array('model' => $model, 'news' => $newsDetails, 'error_in_notification' => $error_in_notification));
+        else
+            $this->redirect(Yii::app()->createUrl(CommonFunction::getDashboardURL()));
     }
 
     /**
@@ -67,7 +82,8 @@ class AuthenticationController extends UserController {
         $this->layout = '//layouts/customerMain';
         $app_info = AppInfoMasterForm::categoryBasedApplist(0);
         $category_nav = $this->categoryList($app_info);
-        $this->render('dashboard', array('app_info' => $app_info, 'category_nav' => $category_nav));
+        $model = new AppInfoMasterForm;
+        $this->render('dashboard', array('app_info' => $app_info, 'category_nav' => $category_nav, 'model' => $model));
     }
 
     /**
@@ -122,8 +138,10 @@ class AuthenticationController extends UserController {
                     $app_menu.='<li><a href="' . $app_details['url'] . '" target="_blank" data-toggle="tooltip" data-placement="left" title="' . addslashes($app_details['name']) . '">' . $app_details['icon'] . "  " . addslashes($displayWord) . '</a></li>';
             }
         }
-        $appUrl = AppInfoMasterForm::model()->findByPk(base64_decode($appId))->getAttribute('url');
-        $this->render('application', array('url' => $appUrl, 'app_menu' => $app_menu));
+        $appInfo = AppInfoMasterForm::model()->findByPk(base64_decode($appId));
+        $appUrl = $appInfo->attributes['url'];
+        $appName = $appInfo->attributes['name'];
+        $this->render('application', array('url' => $appUrl, 'app_menu' => $app_menu, 'app_name' => $appName));
     }
 
     /**
@@ -142,7 +160,9 @@ class AuthenticationController extends UserController {
     public function actionCategoryapplist($categoryId) {
         $app_info = AppInfoMasterForm::categoryBasedApplist($categoryId);
         $applistHtml = $this->categoryBasedApplistHtml($app_info);
-        echo $applistHtml;
+        $response['status'] = AppConstants::SUCCESS_CODE;
+        $response['details'] = $applistHtml;
+        echo json_encode($response);
     }
 
     /**
@@ -204,7 +224,7 @@ class AuthenticationController extends UserController {
             date_default_timezone_set(AppConstants::NOTIFICATION_TIME_ZONE);
             //$news_xml_str = file_get_contents(AppConstants::NOTIFICATION_FEED_URL);
             $news_xml = new SimpleXMLElement($news_xml_str);
-            for($i=0;$i<count($news_xml->channel->item);$i++)
+            for ($i = 0; $i < count($news_xml->channel->item); $i++)
                 $news_xml->channel->item[$i]->pubDate = date("F d, Y h:i A", strtotime($news_xml->channel->item[$i]->pubDate));
             return $news_xml;
         } catch (Exception $e) {

@@ -18,6 +18,7 @@ class ApplicationaccessController extends AdministratorController {
      *        Renders the list page
      */
     public function appAccessList($search = '') {
+        $appAccessList = array();
         if (isset($_POST['search']))
             $_GET['AppAccessForm'] = $_POST['AppAccessForm'];
 
@@ -35,11 +36,13 @@ class ApplicationaccessController extends AdministratorController {
                     ) t2 ON  t0.org_id= t2.org_id) t3) ON t3.id = T.id'
             );
         }
-        for ($i = 0; $i < count($listModel); $i++) {
-            $appAccessList[$i] = $listModel[$i]->attributes;
-            $appAccessList[$i]['org_name'] = $listModel[$i]->OrgMasterForm->attributes['org_name'];
-            $appAccessList[$i]['app_count'] = ($listModel[$i]->attributes['app_info_ids'] != '') ? count(explode(",", $listModel[$i]->attributes['app_info_ids'])) : 0;
-            $appAccessList[$i]['access_name'] = $listModel[$i]->AppAccessMasterForm->attributes['name'];
+        if ($listModel) {
+            for ($i = 0; $i < count($listModel); $i++) {
+                $appAccessList[$i] = $listModel[$i]->attributes;
+                $appAccessList[$i]['org_name'] = $listModel[$i]->OrgMasterForm->attributes['org_name'];
+                $appAccessList[$i]['app_count'] = ($listModel[$i]->attributes['app_info_ids'] != '') ? count(explode(",", $listModel[$i]->attributes['app_info_ids'])) : 0;
+                $appAccessList[$i]['access_name'] = $listModel[$i]->AppAccessMasterForm->attributes['name'];
+            }
         }
         return $appAccessList;
     }
@@ -50,13 +53,16 @@ class ApplicationaccessController extends AdministratorController {
      * @return obj - model with search criteria set
      */
     public function appAccessSearchCriteria() {
+        $model = '';
         $org_criteria = new CDbCriteria;
         $org_criteria->compare('org_name', $_GET['AppAccessForm']['org_name'], true);
         $org_info = OrgMasterForm::model()->findAll($org_criteria);
-        for ($i = 0; $i < count($org_info); $i++) {
-            $orgIds[$i] = $org_info[$i]->attributes['id'];
+        if (count($org_info)) {
+            for ($i = 0; $i < count($org_info); $i++) {
+                $orgIds[$i] = $org_info[$i]->attributes['id'];
+            }
+            $model = AppAccessForm::model()->findAllByAttributes(array('org_id' => $orgIds));
         }
-        $model = AppAccessForm::model()->findAllByAttributes(array('org_id' => $orgIds));
         return $model;
     }
 

@@ -58,6 +58,8 @@ class OrganisationsController extends AdministratorController {
                 if ($model->validate()) {
                     $model->created_by = Yii::app()->user->id;
                     $model->created_dt = new CDbExpression('NOW()');
+                    $fileName = $this->fileUpload('OrgMasterForm[logo]');
+                    $model->logo = $fileName;
                     if ($model->save()) {
                         $org_id = $model->getPrimaryKey();
                         $this->defaultRoleMapping($org_id);
@@ -98,9 +100,12 @@ class OrganisationsController extends AdministratorController {
      */
     public function update($orgId) {
         $model = OrgMasterForm::model()->findByPk($orgId);
+        $old_logo_name = $model->attributes['logo'];
         if (isset($_POST['OrgMasterForm'])) {
             $model->attributes = $_POST['OrgMasterForm'];
             if ($model->validate()) {
+                $fileName = $this->fileUpload('OrgMasterForm[logo]');
+                $model->logo = ($fileName != '') ? $fileName : $old_logo_name;
                 $model->modified_by = Yii::app()->user->id;
                 $model->modified_dt = new CDbExpression('NOW()');
                 if ($model->save()) {
@@ -143,6 +148,46 @@ class OrganisationsController extends AdministratorController {
         echo json_encode($response);
     }
 
+    /**
+     * @desc Uploads a file in a path 
+     * @param $fieldName - File upload field name
+     * @return String - File name
+     */
+    public function fileUpload($fieldName) {
+        $fileName = '';
+        $file = CUploadedFile::getInstanceByName($fieldName);
+        if ($file) {
+            CommonFunction::createDirectory(Yii::app()->basePath . AppConstants::LOGO_UPLOAD_PATH);
+            $fileName = CommonFunction::uniqueFileName($file->getName(), '', Yii::app()->basePath . AppConstants::LOGO_UPLOAD_PATH);
+            $file->saveAs(Yii::app()->basePath . AppConstants::LOGO_UPLOAD_PATH . $fileName);
         }
+        return $fileName;
+    }
+
+    /**
+     * @desc Gives the html icon display based on type and existence of the file
+     * @param $icon_name - name of the icon that should be displayed
+     *         $icon_type - type of icon - icon/image 
+     * @return string - html for icon
+     */
+    public function logoDisplay($logo_name, $icon_type, $logo_path = '') {
+        $icon = '';
+        $logoDir = Yii::app()->basePath . AppConstants::LOGO_UPLOAD_PATH;
+        if ($logo_name && $logo_path)
+            $logoDir = Yii::app()->basePath . $logo_path;
+        if ($logo_name) {
+            if ($icon_type == AppConstants::$ICON_IMAGE['IMG']) {
+                if (file_exists($logoDir . $logo_name))
+                    $icon = CHtml::image(Yii::app()->assetManager->publish($logoDir . $logo_name), "", array("style" => "width:100px;height:25px;"));
+                else
+                    $icon = "Image not found";
+            } else {
+                $icon = '<i class="' . $logo_name . '"></i>';
+            }
+        }
+        return $icon;
+    }
+
+}
 
 ?>

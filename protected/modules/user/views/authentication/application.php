@@ -29,6 +29,7 @@
 
         });
         $('.slimScrollDiv').css('display', 'none');
+        $('#app_title').html('<?php echo $app_name; ?>');
     });
 
 
@@ -82,7 +83,7 @@
         return obj.clientHeight;
     }
 
-</script>   
+</script>
 <div style="height: 560px;" id="iframe">
     <iframe src=""> 
     &lt;/div&gt; 

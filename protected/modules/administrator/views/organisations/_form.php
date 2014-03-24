@@ -30,6 +30,15 @@
     </div>
     <div class="clearfix"></div>
     <div class="control-group pull-left">
+        <?php echo $form->labelEx($model, 'logo'); ?>
+        <div class="controls">
+            <?php echo $form->fileField($model, 'logo'); ?> <?php echo OrganisationsController::logoDisplay($model->logo, AppConstants::$ICON_IMAGE['IMG'], AppConstants::LOGO_UPLOAD_PATH); ?>
+            <p class="imgSpec">(Image in jpg, png or gif format. File size max 2MB with dimension 280 x 70 pixel.)</p>
+            <?php echo $form->error($model, 'logo'); ?>
+        </div>
+    </div>
+
+    <div class="control-group pull-right">
         <?php echo $form->labelEx($model, 'status'); ?>
         <div class="controls">
             <?php echo $form->dropDownList($model, 'status', array('A' => 'Active', 'D' => 'Deactive')); ?>

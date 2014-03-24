@@ -49,7 +49,7 @@ class AppInfoMasterForm extends AppInfoMaster {
         return array(
             array('name, description', 'length', 'max' => 200),
             array('url, icon_name', 'length', 'max' => 255),
-            array('icon_color', 'length', 'max'=>20),
+            array('icon_color', 'length', 'max' => 20),
             array('icon_type, created_by, modified_by', 'length', 'max' => 4),
             array('status, iframe', 'length', 'max' => 1),
             array('created_dt, modified_dt', 'safe'),
@@ -129,8 +129,8 @@ class AppInfoMasterForm extends AppInfoMaster {
         $criteria->compare('description', $this->description, true);
         $criteria->compare('icon_name', $this->icon_name, true);
         $criteria->compare('icon_type', $this->icon_type, true);
-        $criteria->compare('icon_color',$this->icon_color,true);
-        $criteria->compare('iframe',$this->iframe,true);
+        $criteria->compare('icon_color', $this->icon_color, true);
+        $criteria->compare('iframe', $this->iframe, true);
         $criteria->compare('status', $this->status, true);
         $criteria->compare('created_by', $this->created_by, true);
         $criteria->compare('created_dt', $this->created_dt, true);
@@ -171,12 +171,13 @@ class AppInfoMasterForm extends AppInfoMaster {
         }
         return $app_info;
     }
+
+
     /**
      * @desc Gives the application information in array format
      * @param $app_details - array of app information
      * @return array - application information
      */
-
     protected function appInfoFormation($app_details) {
         if ($app_details['status'] == AppConstants::ACTIVE) {
             $app_info = $app_details->attributes;

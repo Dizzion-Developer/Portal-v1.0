@@ -5,7 +5,7 @@
         <meta charset="utf-8">
 
             <title><?php echo $template['title'] ?></title>
-
+            <?php header('Cache-Control: max-age=900'); ?>
             <meta name="description" content="<?php echo $template['description'] ?>">
                 <meta name="robots" content="noindex, nofollow">
                     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -31,6 +31,17 @@
                                 <!-- Modernizr (Browser feature detection library) & Respond.js (Enable responsive CSS code on browsers that don't support them) -->
                                 <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->getAssetManager()->publish(Yii::app()->theme->basePath . '/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js')); ?>
                                 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/common.js" type="text/javascript"></script>  
+                               <!--Loading css based on organization -->
+                                <?php
+                                if (Yii::app()->session['theme'] == 'default') {
+                                     Yii::app()->getClientScript()->registerCssFile(Yii::app()->getAssetManager()->publish(Yii::app()->theme->basePath . '/css/'.Yii::app()->session['theme'].'.css'));
+                                } else if (Yii::app()->session['theme'] == 'custom') {
+                                    include Yii::app()->theme->basePath . '/css/custom.php';
+                                } else {
+                                   include Yii::app()->theme->basePath . '/css/colorThemes.php'; 
+                                }
+                                ?>
+                               <!--Loading css based on organization -->
                                 </head>
 
                                 <body<?php if ($template['layout'] == 'fixed') echo ' class="fixed"'; ?>>
@@ -55,12 +66,22 @@
                                                     <!-- END Mobile Navigation -->
 
                                                     <!-- Logo -->
-                                                    <?php $dashboardUrl = (CommonFunction::getRole() == AppConstants::$ROLES['CUST']) ? 'user/authentication' : 'administrator/applications'; ?>
-                                                    <a href="<?php echo Yii::app()->createUrl('/' . $dashboardUrl . '/dashboard'); ?>" class="brand"><img src="<?php echo Yii::app()->getAssetManager()->publish(Yii::app()->theme->basePath . '/img/template/logo.png'); ?>" alt="logo"></a>
-
+                                                    <?php
+                                                    $logoDir = Yii::app()->basePath . AppConstants::LOGO_UPLOAD_PATH;
+                                                    if(Yii::app()->session['logo']!='' && file_exists($logoDir . Yii::app()->session['logo']))
+                                                            $logo = Yii::app()->assetManager->publish($logoDir . Yii::app()->session['logo']);
+                                                    else 
+                                                            $logo = Yii::app()->getAssetManager()->publish(Yii::app()->theme->basePath . '/img/template/logo.png');
+                                                     ?>
+<?php $dashboardUrl = (CommonFunction::getRole() == AppConstants::$ROLES['CUST']) ? 'user/authentication' : 'administrator/applications'; ?>
+                                                    <a href="<?php echo Yii::app()->createUrl('/' . $dashboardUrl . '/dashboard'); ?>" class="brand"><img src="<?php echo $logo; ?>" alt="logo"></a>
+                                                    <span class="slogan">Powered by Dizzion</span>
                                                     <!-- Loading Indicator, Used for demostrating how loading of widgets could happen, check main.js - uiDemo() -->
                                                     <div id="loading" class="hide pull-left"><i class="icon-certificate icon-spin"></i></div>
-
+                                                    
+                                                    <!-- Application name-->
+                                                    <span id="app_title"></span>
+                                                    <!-- Application name-->
                                                     <!-- Header Widgets -->
                                                     <!-- You can create the widgets you want by replicating the following. Each one exists in a <li> element -->
                                                     <ul id="widgets" class="nav pull-right">
@@ -77,9 +98,9 @@
                                                         <ul class="toggleMenu scrollable-menu" id="customer-app-list" style="display:none;">
                                                         </ul>
                                                     </div>
-                                                     <div class="homeMenu pull-right" style="display:none" >
+                                                    <div class="homeMenu pull-right" style="display:none" >
                                                         <a href="<?php echo Yii::app()->createUrl('/' . $dashboardUrl . '/dashboard'); ?>">Home</a>
-                                                     </div>
+                                                    </div>
                                                     <div class="backMenu pull-right" style="display:none" >
                                                         <a href="<?php echo Yii::app()->createUrl('/user/authentication/dashboard'); ?>">Back</a>
                                                     </div>

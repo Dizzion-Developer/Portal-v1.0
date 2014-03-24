@@ -135,10 +135,11 @@ return array(
             'class' => 'application.extensions.adLDAP.YiiLDAP',
             // those are standard adLDAP options check http://adldap.sourceforge.net/ for documentation
             'options' => array(
-                'ad_port' => 389,
+                'ad_port' => 636,
                 'domain_controllers' => array('74.63.187.138'),
                 'account_suffix' => '@dizziontestad.vdi',
                 'base_dn' => 'dc=dizziontestad,dc=vdi',
+		 'use_ssl'=> true,
                 // for basic functionality this could be a standard, non privileged domain user (required)
                 'admin_username' => 'administrator',
                 'admin_password' => 'D1zziOn!',

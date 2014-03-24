@@ -126,7 +126,7 @@ class CategoryController extends AdministratorController {
                     ),
                     'Delete' => array(
                         'options' => array('class' => 'deactivateCls hidden-phone'),
-                        'imageUrl' => Yii::app()->request->baseUrl . '/images/deactivate.png',
+                        'imageUrl' => Yii::app()->request->baseUrl . '/images/trash.png',
                         'url' => 'Yii::app()->createUrl("administrator/category/delete", array("categoryId"=>$data->id))',
                         'click' => 'function(){
                             if(confirm("Are you sure to delete this category?")){

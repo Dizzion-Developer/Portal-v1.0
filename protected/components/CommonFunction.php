@@ -200,8 +200,10 @@ class CommonFunction {
      *         $icon_type - type of icon - icon/image 
      * @return string - html for icon
      */
-    public function iconDisplay($icon_name, $icon_type) {
-        $appIconDir = Yii::app()->basePath . AppConstants::APPICON_UPLOAD_PATH;
+    public function iconDisplay($icon_name, $icon_type, $icon_path = '') {
+         $appIconDir = Yii::app()->basePath . AppConstants::APPICON_UPLOAD_PATH;
+        if ($icon_path != '')
+            $appIconDir = Yii::app()->basePath . $icon_path;
         if ($icon_type == AppConstants::$ICON_IMAGE['IMG']) {
             if (file_exists($appIconDir . $icon_name))
                 $icon = CHtml::image(Yii::app()->assetManager->publish($appIconDir . $icon_name), "", array("style" => "width:25px;height:25px;"));
@@ -212,7 +214,7 @@ class CommonFunction {
         }
         return $icon;
     }
-    
+
     
     /**
      * @desc Gives the html for bread crum
@@ -222,15 +224,27 @@ class CommonFunction {
     public function getBreadCrum($breadcrum_values) {
         $dashboardUrl = (CommonFunction::getRole() == AppConstants::$ROLES['CUST']) ? 'user/authentication' : 'administrator/applications';
         $bread_crum = '<ul id="nav-info" class="clearfix" style="display:block; margin-top:0; border-bottom:none; margin-bottom:0;">';
-        $bread_crum .='<li><a href="'.Yii::app()->createUrl('/' . $dashboardUrl . '/dashboard').'"><i class="icon-home"></i></a></li>'; 
+        $bread_crum .='<li><a href="' . Yii::app()->createUrl('/' . $dashboardUrl . '/dashboard') . '"><i class="icon-home"></i></a></li>';
         foreach ($breadcrum_values as $key => $value) {
             if ($key == (count($breadcrum_values) - 1))
-                $bread_crum .= ($value['url']!='')?'<li class="active"><a href="'.Yii::app()->createUrl($value['url']).'">' . $value['name'] . '</a></li>':'<li class="active"><a href="#">' . $value['name'] . '</a></li>';
+                $bread_crum .= ($value['url'] != '') ? '<li class="active"><a href="' . Yii::app()->createUrl($value['url']) . '">' . $value['name'] . '</a></li>' : '<li class="active"><a href="#">' . $value['name'] . '</a></li>';
             else
-                $bread_crum .= ($value['url']!='')?'<li><a href="'.Yii::app()->createUrl($value['url']).'">' . $value['name'] . '</a></li>':'<li><a href="#">' . $value['name'] . '</a></li>';
+                $bread_crum .= ($value['url'] != '') ? '<li><a href="' . Yii::app()->createUrl($value['url']) . '">' . $value['name'] . '</a></li>' : '<li><a href="#">' . $value['name'] . '</a></li>';
         }
         $bread_crum .= '</ul>';
         return $bread_crum;
+    }
+    /*
+     * @desc Returns the dashboard url based on role
+     */
+    public function getDashboardURL() {
+        if (CommonFunction::getRole() == AppConstants::$ROLES['SA'] || CommonFunction::getRole() == AppConstants::$ROLES['GA']) {
+            return 'administrator/applications/dashboard';
+        } else if (CommonFunction::getRole() == AppConstants::$ROLES['CUST']) {
+            return 'user/authentication/dashboard';
+        } else {
+            return '';
+        }
     }
 
 }

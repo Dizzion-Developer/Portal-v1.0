@@ -1,18 +1,30 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->getAssetManager()->publish(Yii::app()->theme->basePath . '/js/plugins.js')); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->getAssetManager()->publish(Yii::app()->theme->basePath . '/js/main.js')); ?>
 <script>
+
     $(document).ready(function() {
-         //Function to load applications based on category        
+        $('#primary-nav').slimScroll({height: '640px', railVisible: true});
+        //Function to load applications based on category        
         $('.category-link').click(function() {
             var active_category = $(this).text();
             $('#primary-nav a').removeClass('active');
             $(this).addClass('active');
             var id = $(this).attr('id');
             $.ajax({
-               url : '<?php echo Yii::app()->createUrl('user/authentication/categoryapplist/categoryId') ?>'+'/'+id,
-               type: 'GET',
-               success:function(message){
-                  $('#app-dashboard').html(message);
-                  $('#nav-info li[class=active] a').text(active_category);
-               }
+                url: '<?php echo Yii::app()->createUrl('user/authentication/categoryapplist/categoryId') ?>' + '/' + id,
+                type: 'GET',
+                dataType:'json',
+                success: function(message) {
+                    if (message.status == '<?php echo AppConstants::SUCCESS_CODE; ?>') {
+                        $('#category_id').val(id);
+                        $('#app-dashboard').html(message.details);
+                        $('#nav-info li[class=active] a').text(active_category);
+                    } else {
+                        location.reload();
+                    }
+               }, error:function(){
+                    location.reload();
+                }
             });
         });
     })

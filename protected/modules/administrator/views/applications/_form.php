@@ -58,6 +58,7 @@
         <?php echo $form->labelEx($model, 'url'); ?>
         <div class="controls">
             <?php echo $form->textField($model, 'url'); ?>
+            <p class="imgSpec">(Starts with http [or] https.Eg:'http://www.test.com')</p>
             <?php echo $form->error($model, 'url'); ?>
         </div>
     </div>
@@ -84,7 +85,7 @@
         <?php echo $form->labelEx($model, 'icon_color'); ?>
         <div class="controls">
             <div data-color="<?php echo isset($model->attributes['icon_color'])?$model->attributes['icon_color']:AppConstants::DEFAULT_APP_TILE_COLOR;?>" class="input-append input-colorpicker color">
-                <?php echo $form->textField($model, 'icon_color', array('class' => 'input-mini')); ?>
+                <?php echo $form->textField($model, 'icon_color', array('class' => 'input-mini','readOnly'=>true)); ?>
                 <span class="add-on"><i style="background-color: <?php echo (isset($model->attributes['icon_color']) && $model->attributes['icon_color']!='')?$model->attributes['icon_color']:AppConstants::DEFAULT_APP_TILE_COLOR;?>"></i></span>
             </div>
         </div>

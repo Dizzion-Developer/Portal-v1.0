@@ -73,6 +73,7 @@
                 var table_id = $('#category table[id]').attr('id');
                // $('#' + table_id).dataTable().fnDraw();
                 $('.alert-block').hide();
+                $('.custom-messages').show();
                 if (message.status == 'success') {
                     $('#' + table_id).dataTable().fnDeleteRow();
                     $(".custom-error-flash-message").hide();

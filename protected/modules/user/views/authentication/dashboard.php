@@ -21,6 +21,9 @@
 <?php echo CommonFunction::getHeader('My Applications'); ?>
     <!-- Category navigation ends-->
 </div>
+ <!-- Search form starts-->
+
+  <!-- Search form ends-->
     <div id ="app-dashboard">
         <div class="carousel remove-margin" id="example-carousel2">
             <!-- Carousel items -->

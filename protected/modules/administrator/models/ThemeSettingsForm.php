@@ -20,7 +20,8 @@
  */
 class ThemeSettingsForm extends ThemeSettings
 {
-	/**
+    public $org_name;
+    /**
 	 * Returns the static model of the specified AR class.
 	 * @return ThemeSettings the static model class
 	 */
@@ -47,12 +48,14 @@ class ThemeSettingsForm extends ThemeSettings
 		return array(
 			array('org_id, created_by', 'length', 'max'=>4),
 			array('type', 'length', 'max'=>100),
-			array('header, hover, link', 'length', 'max'=>50),
+			array('header, hover, link, button', 'length', 'max'=>50),
 			array('modified_by', 'length', 'max'=>20),
 			array('created_dt, modified_dt', 'safe'),
+			array('org_name', 'safe'),
+			array('org_name', 'required'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, org_id, type, header, hover, link, created_by, created_dt, modified_by, modified_dt', 'safe', 'on'=>'search'),
+			array('id, org_id, type, header, hover, link, created_by, created_dt, modified_by, modified_dt, org_name, button', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -64,7 +67,7 @@ class ThemeSettingsForm extends ThemeSettings
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'org' => array(self::BELONGS_TO, 'OrgMaster', 'org_id'),
+			'OrgMasterForm' => array(self::BELONGS_TO, 'OrgMaster', 'org_id'),
 		);
 	}
 
@@ -95,10 +98,12 @@ class ThemeSettingsForm extends ThemeSettings
 		return array(
 			'id' => Yii::t('app', 'ID'),
 			'org_id' => Yii::t('app', 'Organization'),
+			'org_name' => Yii::t('app', 'Organization'),
 			'type' => Yii::t('app', 'Type'),
 			'header' => Yii::t('app', 'Header'),
 			'hover' => Yii::t('app', 'Hover'),
-			'link' => Yii::t('app', 'Link'),
+			'link' => Yii::t('app', 'Hyperlink'),
+                        'button' => Yii::t('app', 'Button'),
 			'created_by' => Yii::t('app', 'Created By'),
 			'created_dt' => Yii::t('app', 'Created Dt'),
 			'modified_by' => Yii::t('app', 'Modified By'),
@@ -123,6 +128,7 @@ class ThemeSettingsForm extends ThemeSettings
 		$criteria->compare('header',$this->header,true);
 		$criteria->compare('hover',$this->hover,true);
 		$criteria->compare('link',$this->link,true);
+                $criteria->compare('button',$this->button,true);
 		$criteria->compare('created_by',$this->created_by,true);
 		$criteria->compare('created_dt',$this->created_dt,true);
 		$criteria->compare('modified_by',$this->modified_by,true);

@@ -56,7 +56,7 @@ class AppInfoMasterForm extends AppInfoMaster {
             array('created_dt, modified_dt', 'safe'),
             array('name', 'match', 'not' => true, 'pattern' => '/[^a-zA-Z0-9 ]/', 'message' => '{attribute} should be alphanumeric'),
             array('name, url, status, category_id', 'required'),
-            array('url', 'url', 'defaultScheme' => 'http'),
+            array('url', 'url'),
             array('url', 'validUrl'),
             array('upload_image', 'file', 'types' => 'png, jpg, gif', 'allowEmpty' => true, 'maxSize' => 1024 * 1024 * 2, 'tooLarge' => 'File has to be smaller than 2MB'),
             // The following rule is used by search().

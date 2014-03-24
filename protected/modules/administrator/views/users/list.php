@@ -21,6 +21,7 @@
             success: function(message) {
                 $.fn.yiiGridView.update('user-grid');
                 $('.alert-block').hide();
+                $('.custom-messages').show();
                 if (message.status == 'success') {
                     $(".custom-error-flash-message").hide();
                     $("#custom-flash-message").html(message.message);

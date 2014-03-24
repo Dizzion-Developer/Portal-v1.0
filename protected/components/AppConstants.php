@@ -36,6 +36,10 @@ class AppConstants {
     const ORG_DEACTIVATED_SUCCESS = 'Organization deactivated successfully.';
     const ORG_ACTIVATED_SUCCESS = 'Organization activated successfully.';
     
+    const LOGO_UPLOAD_PATH = '/../files/orglogo/';
+    const LOGO_MAX_HEIGHT = '70';
+    const LOGO_MAX_WIDTH = '280';
+    
     /* Application access */
     const APP_ACCESS_SAVED_SUCCESS = 'Role saved successfully.';
     const APP_ACCESS_UPDATED_SUCCESS = 'Role updated successfully.';

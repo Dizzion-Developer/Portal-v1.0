@@ -10,6 +10,7 @@
  * @property string $header
  * @property string $hover
  * @property string $link
+ * @property string $button
  * @property string $created_by
  * @property string $created_dt
  * @property string $modified_by
@@ -47,12 +48,12 @@ class ThemeSettings extends CActiveRecord
 		return array(
 			array('org_id, created_by', 'length', 'max'=>4),
 			array('type', 'length', 'max'=>100),
-			array('header, hover, link', 'length', 'max'=>50),
+			array('header, hover, link, button', 'length', 'max'=>50),
 			array('modified_by', 'length', 'max'=>20),
 			array('created_dt, modified_dt', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, org_id, type, header, hover, link, created_by, created_dt, modified_by, modified_dt', 'safe', 'on'=>'search'),
+			array('id, org_id, type, header, hover, link, button, created_by, created_dt, modified_by, modified_dt', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -99,6 +100,7 @@ class ThemeSettings extends CActiveRecord
 			'header' => Yii::t('app', 'Header'),
 			'hover' => Yii::t('app', 'Hover'),
 			'link' => Yii::t('app', 'Link'),
+			'button' => Yii::t('app', 'Button'),
 			'created_by' => Yii::t('app', 'Created By'),
 			'created_dt' => Yii::t('app', 'Created Dt'),
 			'modified_by' => Yii::t('app', 'Modified By'),
@@ -123,6 +125,7 @@ class ThemeSettings extends CActiveRecord
 		$criteria->compare('header',$this->header,true);
 		$criteria->compare('hover',$this->hover,true);
 		$criteria->compare('link',$this->link,true);
+		$criteria->compare('button',$this->button,true);
 		$criteria->compare('created_by',$this->created_by,true);
 		$criteria->compare('created_dt',$this->created_dt,true);
 		$criteria->compare('modified_by',$this->modified_by,true);

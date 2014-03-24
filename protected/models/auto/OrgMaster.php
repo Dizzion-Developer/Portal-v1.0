@@ -7,11 +7,17 @@
  * @property string $id
  * @property string $org_name
  * @property string $customer_id
+ * @property string $logo
  * @property string $status
  * @property string $created_by
  * @property string $created_dt
  * @property string $modified_by
  * @property string $modified_dt
+ *
+ * The followings are the available model relations:
+ * @property AppAccess[] $appAccesses
+ * @property ThemeSettings[] $themeSettings
+ * @property UserMaster[] $userMasters
  */
 class OrgMaster extends CActiveRecord
 {
@@ -42,12 +48,13 @@ class OrgMaster extends CActiveRecord
 		return array(
 			array('org_name', 'length', 'max'=>200),
 			array('customer_id', 'length', 'max'=>100),
+			array('logo', 'length', 'max'=>250),
 			array('status', 'length', 'max'=>1),
 			array('created_by, modified_by', 'length', 'max'=>4),
 			array('created_dt, modified_dt', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, org_name, customer_id, status, created_by, created_dt, modified_by, modified_dt', 'safe', 'on'=>'search'),
+			array('id, org_name, customer_id, logo, status, created_by, created_dt, modified_by, modified_dt', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -59,6 +66,9 @@ class OrgMaster extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'appAccesses' => array(self::HAS_MANY, 'AppAccess', 'org_id'),
+			'themeSettings' => array(self::HAS_MANY, 'ThemeSettings', 'org_id'),
+			'userMasters' => array(self::HAS_MANY, 'UserMaster', 'org_id'),
 		);
 	}
 
@@ -90,6 +100,7 @@ class OrgMaster extends CActiveRecord
 			'id' => Yii::t('app', 'ID'),
 			'org_name' => Yii::t('app', 'Org Name'),
 			'customer_id' => Yii::t('app', 'Customer'),
+			'logo' => Yii::t('app', 'Logo'),
 			'status' => Yii::t('app', 'Status'),
 			'created_by' => Yii::t('app', 'Created By'),
 			'created_dt' => Yii::t('app', 'Created Dt'),
@@ -112,6 +123,7 @@ class OrgMaster extends CActiveRecord
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('org_name',$this->org_name,true);
 		$criteria->compare('customer_id',$this->customer_id,true);
+		$criteria->compare('logo',$this->logo,true);
 		$criteria->compare('status',$this->status,true);
 		$criteria->compare('created_by',$this->created_by,true);
 		$criteria->compare('created_dt',$this->created_dt,true);

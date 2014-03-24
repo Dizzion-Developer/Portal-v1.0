@@ -42,12 +42,13 @@ class OrgMasterForm extends OrgMaster
 		return array(
 			array('org_name', 'length', 'max'=>200),
 			array('customer_id', 'length', 'max'=>100),
+                        array('logo', 'length', 'max'=>250),
 			array('status', 'length', 'max'=>1),
 			array('created_by, modified_by', 'length', 'max'=>4),
 			array('created_dt, modified_dt', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, org_name, customer_id, status, created_by, created_dt, modified_by, modified_dt', 'safe', 'on'=>'search'),
+			array('id, org_name,logo, customer_id, status, created_by, created_dt, modified_by, modified_dt', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -90,6 +91,7 @@ class OrgMasterForm extends OrgMaster
 			'id' => Yii::t('app', 'ID'),
 			'org_name' => Yii::t('app', 'Org Name'),
 			'customer_id' => Yii::t('app', 'Customer'),
+                        'logo' => Yii::t('app', 'Logo'),
 			'status' => Yii::t('app', 'Status'),
 			'created_by' => Yii::t('app', 'Created By'),
 			'created_dt' => Yii::t('app', 'Created Dt'),
@@ -112,6 +114,7 @@ class OrgMasterForm extends OrgMaster
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('org_name',$this->org_name,true);
 		$criteria->compare('customer_id',$this->customer_id,true);
+                $criteria->compare('logo',$this->logo,true);
 		$criteria->compare('status',$this->status,true);
 		$criteria->compare('created_by',$this->created_by,true);
 		$criteria->compare('created_dt',$this->created_dt,true);
