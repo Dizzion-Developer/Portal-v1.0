@@ -1,5 +1,5 @@
-Portal
-======
+Portal [Current Version -- 1.2]
+===============================
 
 Dizzion SelfService Portal
 
@@ -46,4 +46,15 @@ To move from version Dizzion-1.1v to Dizzion-1.2v:
 5. Replace the existing source code with the new source code
 6. Ensure that /Portal/files folder is world writable.
 
+Items that are covered in version 1.2
+=====================================
 
+1. Color picker for applications
+2. Color themes
+3. Secure ldap
+4. Category delete
+5. Bread crumb
+6. Gradient header in themes
+7. Rounded edges for application tiles
+8. Application title in app browser page
+9. Logo upload for organizations
