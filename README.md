@@ -43,6 +43,6 @@ To move from version Dizzion-1.1v to Dizzion-1.2v:
 3. Click on Import menu and browse for migration_script_v2.sql that is located in root directory(Portal)
 4. Click on 'Go' to import the script into dizzion DB
 5. Replace the existing source code with the new source code
-6. Ensure that /dizzion/files folder is world writable.
+6. Ensure that /Portal/files folder is world writable.
 
 
