@@ -62,8 +62,7 @@
             applyDefaultColorThemes('<?php echo AppConstants::$THEME_COLORS['default']; ?>');
             $('.custom_theme').find('input:text').val('');
             $('.custom_theme').hide();
-            $('#reset').attr('disabled', true);
-            return false;
+            $('#ThemeSettingsForm_type').val('<?php echo AppConstants::$THEME_COLORS['default']; ?>');
         });
 
     });
