@@ -100,7 +100,7 @@ class AppConstants {
     public static $THEME_COLOR_CODES = array('default'=>'#ff9c03','deepblue'=>'#284e99','deepwood'=>'#594117','deeppurple'=>'#6B2180','deepgreen'=>'#365917');
     public static $THEME_COLORS = array('default'=>'default','deepblue'=>'deepblue','deepwood'=>'deepwood','deeppurple'=>'deeppurple','deepgreen'=>'deepgreen','custom'=>'custom');
     /* Theme management constants starts */
-    const THEME_SAVED_SUCCESS = 'Theme details saved successfully';
+    const THEME_SAVED_SUCCESS = 'Theme details saved successfully, Re-login to see the changes.';
 
     /* Theme management constants ends */
     

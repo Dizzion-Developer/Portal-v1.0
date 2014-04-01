@@ -82,7 +82,7 @@ class ApplicationaccessController extends AdministratorController {
                 $model->scenario = 'create';
                 $model->attributes = $_POST['AppAccessForm'];
                 if ($model->validate()) {
-                    $model->app_info_ids = implode(",", $_POST['AppAccessForm']['app_info_ids']);
+                    $model->app_info_ids = rtrim(implode(",", $_POST['AppAccessForm']['app_info_ids']),",");
                     $model->status = 'A';
                     $model->created_by = Yii::app()->user->id;
                     $model->created_dt = new CDbExpression('NOW()');
@@ -115,6 +115,7 @@ class ApplicationaccessController extends AdministratorController {
                 $updateModel = '';
             } else {
                 if ($updateModel->attributes['app_info_ids'] != '') {
+                    $updateModel->app_info_ids = rtrim($updateModel->app_info_ids,",");
                     $updateModel->app_info_ids = explode(",", $updateModel->attributes['app_info_ids']);
                     foreach ($updateModel->app_info_ids as $key => $appId) {
                         if ($dropdownvalues['status_info'][$appId] == AppConstants::DEACTIVE) {
@@ -178,7 +179,7 @@ class ApplicationaccessController extends AdministratorController {
             $model->scenario = 'update';
             $model->attributes = $_POST['AppAccessForm'];
             if ($model->validate()) {
-                $model->app_info_ids = implode(",", $_POST['AppAccessForm']['app_info_ids']);
+                $model->app_info_ids = rtrim(implode(",", $_POST['AppAccessForm']['app_info_ids']),",");
                 if ($_POST['AppAccessForm']['selected_apps'] != '') {
                     $model->app_info_ids = $model->app_info_ids . "," . $_POST['AppAccessForm']['selected_apps'];
                 }

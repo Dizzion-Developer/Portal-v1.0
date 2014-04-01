@@ -13,6 +13,11 @@
  * @property string $created_dt
  * @property string $modified_by
  * @property string $modified_dt
+ *
+ * The followings are the available model relations:
+ * @property AppAccessMaster $access
+ * @property OrgMaster $org
+ * @property UserMaster[] $userMasters
  */
 class AppAccess extends CActiveRecord
 {
@@ -42,9 +47,8 @@ class AppAccess extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('access_id, org_id, created_by, modified_by', 'length', 'max'=>4),
-			array('app_info_ids', 'length', 'max'=>200),
 			array('status', 'length', 'max'=>1),
-			array('created_dt, modified_dt', 'safe'),
+			array('app_info_ids, created_dt, modified_dt', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, access_id, app_info_ids, org_id, status, created_by, created_dt, modified_by, modified_dt', 'safe', 'on'=>'search'),
@@ -59,6 +63,9 @@ class AppAccess extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'access' => array(self::BELONGS_TO, 'AppAccessMaster', 'access_id'),
+			'org' => array(self::BELONGS_TO, 'OrgMaster', 'org_id'),
+			'userMasters' => array(self::HAS_MANY, 'UserMaster', 'app_access_map_id'),
 		);
 	}
 

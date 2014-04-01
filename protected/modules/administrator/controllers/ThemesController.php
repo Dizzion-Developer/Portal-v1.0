@@ -38,7 +38,7 @@ class ThemesController extends AdministratorController {
                         Yii::app()->user->setFlash('error', Yii::t('app', ErrorConstants::ORG_NOT_EXIST));
                     }
                 }
-            } else if (isset($_POST['save'])) {
+            } else if (isset($_POST['save']) || isset ($_POST['reset'])) {
                 $model = $this->save();
                 $org_name = $model->OrgMasterForm->attributes['org_name'];
             }
