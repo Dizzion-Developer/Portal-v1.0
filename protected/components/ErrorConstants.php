@@ -16,10 +16,14 @@ class ErrorConstants {
     const ERROR_IN_SAVING = 'Error occurred while saving the details.';
     const ERROR_IN_DELTETION = 'Error occurred while deleting the details.';
     const UPLOAD_ICON = 'Please choose an Icon.';
+     const APP_DELETED_FAILURE='Error occurred while deleting application';
+    const ERROR_IN_DELETION='Application cannot be deleted';
     
     /* Organization Management */
     const ERROR_IN_ORG_SAVE = 'Error in saving organization information';
     const ERROR_IN_ORG_UPDATE = 'Error in updating organization information';
+    const ORGANISATION_DELETED_FAILURE='Organisation deletion failed due to reference mapping';
+    const ERROR_IN_DELTETING_ORGANISATION='Error in deleting organisation';
     
     /* Application access Management */
     const ERROR_IN_APP_ACCESS_SAVE = 'Error in saving role';
@@ -33,6 +37,7 @@ class ErrorConstants {
     const ERROR_IN_USER_UPDATE = 'Error in updating user information';
     const ERROR_ORG_INACTIVE = 'You need to enable corresponding Organization to edit user details.';
     const ERROR_APPACCESS_ORG_INACTIVE = 'You need to enable corresponding Organization to edit role assignment.';
+    const USER_DELETED_FAILURE='Error in deleting user';
 
     const CANNOT_DEACTIVATE_ORG = 'You cannot deactivate this organization since role assignment already exists';
     const CANNOT_DEACTIVATE_ACC_NAME = 'You cannot deactivate this role since role assignment already exists';
