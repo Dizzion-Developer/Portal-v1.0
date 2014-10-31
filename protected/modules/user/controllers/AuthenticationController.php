@@ -231,5 +231,14 @@ class AuthenticationController extends UserController {
             return "error||" . $e->getmessage();
         }
     }
+     /**
+     * @desc Gives the html for application list based on search criteria
+     * @return html - html to generate application tiles based on search
+     */
+    public function actionSearch() {        
+        $app_info = AppInfoMasterForm::searchBasedAppList($_POST['AppName'], $_POST['category_id']);
+        $applistHtml = $this->categoryBasedApplistHtml($app_info);
+        echo $applistHtml;
+    }
 
 }

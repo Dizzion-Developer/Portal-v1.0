@@ -111,8 +111,8 @@ class OrgMasterForm extends OrgMaster {
         $criteria = new CDbCriteria;
 
         $criteria->compare('id', $this->id, true);
-        $criteria->compare('org_name', $this->org_name, true);
-        $criteria->compare('customer_id', $this->customer_id, true);
+        $criteria->compare('org_name', $this->org_name, true,'OR');
+        $criteria->compare('customer_id', $this->org_name, true,'OR');
         $criteria->compare('logo', $this->logo, true);
         $criteria->compare('status', $this->status, true);
         $criteria->compare('created_by', $this->created_by, true);
@@ -123,13 +123,13 @@ class OrgMasterForm extends OrgMaster {
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
             'sort' => array(
-                'defaultOrder' => 'created_dt DESC',
+                'defaultOrder' => 'org_name ASC',
             ),
         ));
     }
 
     public function validateImageDimension() {
-        if (isset($_FILES) && count($_FILES)>0) {
+        if (isset($_FILES) && count($_FILES) > 0) {
             if (file_exists($_FILES['OrgMasterForm']['tmp_name']['logo'])) {
                 if (isset($_FILES['OrgMasterForm']['tmp_name']['logo']) && $_FILES['OrgMasterForm']['tmp_name']['logo'] != '') {
                     $imgInfo = getimagesize($_FILES['OrgMasterForm']['tmp_name']['logo']);
@@ -158,6 +158,15 @@ class OrgMasterForm extends OrgMaster {
                 return $status;
             else
                 return false;
+        } else {
+            return false;
+        }
+    }
+
+    public function deleteOrg($orgId) {
+        $delete_status = OrgMasterForm::model()->deleteByPk($orgId);
+        if ($delete_status) {
+            return true;
         } else {
             return false;
         }

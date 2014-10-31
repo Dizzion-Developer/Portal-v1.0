@@ -35,6 +35,32 @@
             }
         });
     }
+    // function to  delete the organisation
+    function deleteOrg(orgId) {
+   
+        $.ajax({
+            url: '<?php echo Yii::app()->createUrl('administrator/organisations/delete/orgId/') ?>' + '/' + orgId,
+            type: 'GET',
+            dataType: 'JSON',
+            success: function(message) {
+                $.fn.yiiGridView.update('org-grid');
+                $('.alert-block').hide();
+                $('.custom-messages').show();
+                if (message.status == 'success') {   
+                     
+                    $(".custom-error-flash-message").hide(); 
+                    $("#custom-flash-message").html(message.message);
+                    $(".custom-flash-message").show();
+                } else {
+                   $(".custom-flash-message").hide();
+                   $("#custom-error-flash-message").html(message.message);
+                   $(".custom-error-flash-message").show(); 
+                }
+            }, error:function(message){
+                alert(message);
+            }
+        });
+    }
 </script>
 <!-- Navigation info -->
 <?php echo CommonFunction::getBreadCrum(array(
@@ -114,7 +140,7 @@ Yii::app()->clientScript->registerScript('addNewOrg', "
             ),
             array(
                 'class' => 'EBootstrapButtonColumn',
-                'template' => '{edit} {deactivate} {activate}',
+                'template' => '{edit} {deactivate} {activate} {delete}',
                 'header' => Yii::t('app', 'Actions'),
                 'buttons' => array(
                     'edit' => array(
@@ -153,6 +179,23 @@ Yii::app()->clientScript->registerScript('addNewOrg', "
                                   var url = $(this).attr("href");
                                   var orgId = getURLParameter(url, "orgId");
                                   statusChange(orgId);     
+                            }
+                            return false;
+                            }',
+                    ),
+                     'delete' => array(
+                        
+                        'label' => '',
+                        'imageUrl' => Yii::app()->request->baseUrl . '/images/trash.png',
+                        'url' => 'Yii::app()->createUrl("administrator/organisations/delete", array("orgId"=>$data->id))',
+                        'htmloptions' => array('style' => 'padding-left:10px;'),
+                        'visible'=>'$data->id!=1',
+                        'options' => array('title' => 'Delete','class' => 'deleteCls hidden-phone'),
+                         'click' => 'function(){
+                            if(confirm("Are you sure to delete this organization?")){
+                                  var url = $(this).attr("href");
+                                  var orgId = getURLParameter(url, "orgId");
+                                  deleteOrg(orgId);     
                             }
                             return false;
                             }',

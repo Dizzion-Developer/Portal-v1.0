@@ -109,7 +109,8 @@ class CategoryMasterForm extends CategoryMaster {
 
             // use operator ILIKE if using PostgreSQL to get case insensitive search
             $criteria->compare('category_name', $_GET['sSearch'], true, 'OR', 'LIKE');
-            $criteria->compare('status', $_GET['sSearch'], true, 'OR', 'LIKE');
+            //$criteria->compare('status', $_GET['sSearch'], true, 'OR', 'LIKE');
+             $criteria->compare('id', $_GET['sSearch'], true, 'OR', 'LIKE');
         }
 
         $criteria->compare('id', $this->id, true);
@@ -121,7 +122,7 @@ class CategoryMasterForm extends CategoryMaster {
         $criteria->compare('modified_dt', $this->modified_dt, true);
 
         $sort = new EDTSort(__CLASS__, $columns);
-        $sort->defaultOrder = 'created_dt desc';
+        $sort->defaultOrder = 'id asc';
         /* code to set customized page size */
 //        $pagination = new EDTPagination;
 //        $pagination->setPageSize(10);

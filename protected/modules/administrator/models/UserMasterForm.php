@@ -192,7 +192,8 @@ class UserMasterForm extends UserMaster {
         $userInfo = UserMasterForm::model()->findByPk($userId);
         return $userInfo->OrgMasterForm->attributes['status'];
     }
-       /**
+
+    /**
      * @desc Gives the user's role code
      * @param $userId - unique id of the user
      * @return string - Role code 
@@ -201,5 +202,28 @@ class UserMasterForm extends UserMaster {
         $userInfo = UserMasterForm::model()->findByPk($userId);
         return $userInfo->attributes['role_code'];
     }
-    
+
+    public function deleteOrgUser($orgId) {
+        $user_mapped = UserMasterForm::model()->findAllByAttributes(array('org_id' => $orgId));
+        if ($user_mapped) {
+            if (UserMasterForm::model()->deleteAllByAttributes(array('org_id' => $orgId))) {
+                $msg = "User deleted successfully";
+            } else {
+                $msg = false;
+            }
+        } else {
+            $msg = "User doesnot exist";
+        }
+        return $msg;
+    }
+
+    public function deleteUser($userId) {
+        $user_delete = UserMasterForm::model()->deleteByPk($userId);
+        if ($user_delete) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

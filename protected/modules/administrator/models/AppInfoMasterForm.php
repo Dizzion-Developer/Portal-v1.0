@@ -159,8 +159,8 @@ class AppInfoMasterForm extends AppInfoMaster {
         $criteria = new CDbCriteria;
 
         $criteria->compare('id', $this->id, true);
-        $criteria->compare('name', $this->name, true);
-        $criteria->compare('url', $this->url, true);
+        $criteria->compare('name', $this->name, true , 'OR');
+        $criteria->compare('url', $this->name, true, 'OR');
         $criteria->compare('description', $this->description, true);
         $criteria->compare('category_id', $this->category_id, true);
         $criteria->compare('icon_name', $this->icon_name, true);
@@ -176,7 +176,7 @@ class AppInfoMasterForm extends AppInfoMaster {
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
             'sort' => array(
-                'defaultOrder' => 'created_dt DESC',
+                'defaultOrder' => 'name ASC',
             ),
         ));
     }
@@ -209,6 +209,16 @@ class AppInfoMasterForm extends AppInfoMaster {
             return $appInfo;
         else
             return false;
+    }
+    
+    public function deleteApp($appId){        
+        $app_delete=  AppInfoMasterForm::model()->deleteByPk($appId);       
+        if($app_delete){           
+             return true;
+        }           
+        else{           
+            return false;
+        }
     }
 
 }

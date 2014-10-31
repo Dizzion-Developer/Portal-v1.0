@@ -188,6 +188,33 @@ class OrganisationsController extends AdministratorController {
         return $icon;
     }
 
+    /**
+     * @desc Deletes the org
+     * @param $orgId - Unique Id of the organisation
+     * @return String - Status message
+     */
+    public function actionDelete($orgId) {
+       
+        $transaction = Yii::app()->db->beginTransaction();
+        if ((UserMasterForm::deleteOrgUser($orgId)) && (AppAccessForm::deleteOrgAppAccess($orgId)) && (ThemeSettingsForm::deleteOrgThemeSettings($orgId))) {
+           
+            if (OrgMasterForm::deleteOrg($orgId)) {
+                $transaction->commit();
+                $response['message'] = AppConstants::ORGANISATION_DELETED_SUCCESS;
+                $response['status'] = 'success';
+            } else {
+                $transaction->rollback();
+                $response['message'] = ErrorConstants::ERROR_IN_DELTETING_ORGANISATION;
+                $response['status'] = 'failure';
+            }
+        } else {
+            $transaction->rollback();
+            $response['message'] = ErrorConstants::ORGANISATION_DELETED_FAILURE;
+            $response['status'] = 'failure';
+        }
+        echo json_encode($response);
+    }
+
 }
 
 ?>

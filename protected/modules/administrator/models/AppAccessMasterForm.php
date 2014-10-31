@@ -36,7 +36,7 @@ class AppAccessMasterForm extends AppAccessMaster {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('name', 'length', 'max' => 30),
+            array('name', 'length', 'max' => 20),
             array('status', 'length', 'max' => 1),
             array('created_by, modified_by', 'length', 'max' => 4),
             array('name', 'match','not' => true,'pattern'=>'/[^a-zA-Z0-9 ]/','message'=>'{attribute} should be alphanumeric'),
@@ -114,7 +114,7 @@ class AppAccessMasterForm extends AppAccessMaster {
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
             'sort' => array(
-                'defaultOrder' => 'created_dt DESC',
+                'defaultOrder' => 'name ASC',
             ),
         ));
     }

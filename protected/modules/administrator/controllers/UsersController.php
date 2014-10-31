@@ -44,10 +44,12 @@ class UsersController extends AdministratorController {
             $criteria = new CDbCriteria;
             $criteria->compare('first_name', $_GET['UserMasterForm']['user_name'], true,'OR');
             $criteria->compare('last_name', $_GET['UserMasterForm']['user_name'], true,'OR');
+             $criteria->compare('email_id', $_GET['UserMasterForm']['user_name'], true,'OR');
+             
 
             $model = UserMasterForm::model()->findAll($criteria);
         } else {
-            $model = UserMasterForm::model()->findAll(array('order' => 'created_dt DESC'));
+            $model = UserMasterForm::model()->findAll(array('order' => 'user_name ASC'));
         }
         return $model;
     }
@@ -249,6 +251,20 @@ class UsersController extends AdministratorController {
         }
         return $dropdownvalues;
     }
+    
+     public function actionDelete($userId) {
+         $transaction = Yii::app()->db->beginTransaction();
+        if (UserMasterForm::deleteUser($userId)) {
+             $transaction->commit();
+            $response['message'] = AppConstants::USER_DELETED_SUCCESS;
+            $response['status'] = 'success';
+        } else {
+             $transaction->rollback();
+            $response['message'] = ErrorConstants::USER_DELETED_FAILURE;
+            $response['status'] = 'failure';
+        }
+        echo json_encode($response);
+    } 
 
 }
 

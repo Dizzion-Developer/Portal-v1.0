@@ -172,7 +172,6 @@ class AppInfoMasterForm extends AppInfoMaster {
         return $app_info;
     }
 
-
     /**
      * @desc Gives the application information in array format
      * @param $app_details - array of app information
@@ -190,6 +189,40 @@ class AppInfoMasterForm extends AppInfoMaster {
         } else {
             return false;
         }
+    }
+
+    /**
+     * @desc Gives the application information based on category and application name
+     * @param $category_id - category id (if category_id is 0 it is treated as all categories)
+     *        $appName - application name to be searched
+     * @return array - application information
+     */
+    public function searchBasedAppList($appName, $categoryId) {
+        $userInfo = UserMasterForm::model()->findByPk(Yii::app()->user->id);
+        $users_app_list = explode(",", $userInfo->AppAccessForm->attributes['app_info_ids']);
+
+        $criteria = new CDbCriteria;
+
+        $criteria->compare('name', $appName, true, 'OR');
+        $criteria->compare('description', $appName, true, 'OR');
+        $criteria->compare('url', $appName, true, 'OR');
+
+        $criteria->addInCondition('id', $users_app_list);
+        if ($categoryId != '' && $categoryId != 0) {
+            $criteria->addColumnCondition(array('category_id' => $categoryId));
+        }
+
+        $criteria->addColumnCondition(array('status' => AppConstants::ACTIVE));
+
+        $appList = AppInfoMasterForm::model()->findAll($criteria);
+
+        $app_info = array();
+        $count = 0;
+        foreach ($appList as $app_details) {
+            $app_info[$count++] = AppInfoMasterForm::appInfoFormation($app_details);
+        }
+
+        return $app_info;
     }
 
 }

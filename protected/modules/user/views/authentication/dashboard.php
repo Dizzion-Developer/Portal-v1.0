@@ -22,7 +22,9 @@
     <!-- Category navigation ends-->
 </div>
  <!-- Search form starts-->
-
+   <div id="search-form">
+        <?php echo $this->renderPartial('_search', array('model' => $model, 'type' => 'search')); ?>
+    </div>
   <!-- Search form ends-->
     <div id ="app-dashboard">
         <div class="carousel remove-margin" id="example-carousel2">

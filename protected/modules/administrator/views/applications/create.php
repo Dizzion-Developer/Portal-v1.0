@@ -33,6 +33,28 @@
             }
         });
     }
+     // function to delete application
+    function deleteApp(appId) {
+        $.ajax({
+            url: '<?php echo Yii::app()->createUrl('administrator/applications/delete/appId/') ?>' + '/' + appId,
+            type: 'GET',
+            dataType: 'JSON',
+            success: function(message) {             
+                $.fn.yiiGridView.update('app-grid');
+                $('.alert-block').hide();
+                $('.custom-messages').show();
+                if (message.status == 'success') {
+                    $(".custom-error-flash-message").hide();
+                    $("#custom-flash-message").html(message.message);
+                    $(".custom-flash-message").show();
+                } else {
+                    $(".custom-flash-message").hide();
+                    $("#custom-error-flash-message").html(message.message);
+                    $(".custom-error-flash-message").show();
+                }
+            }
+        });
+    }
     //function to select modal icon
     function onModalIconSelect(value) {
         $('.imgUpload').show();
@@ -146,7 +168,7 @@ Yii::app()->clientScript->registerScript('addNewApp', "
             ),
             array(
                 'class' => 'EBootstrapButtonColumn',
-                'template' => '{edit} {deactivate} {activate}',
+                'template' => '{edit} {deactivate} {activate} {delete}',
                 'header' => Yii::t('app', 'Actions'),
                 'buttons' => array(
                     'edit' => array(
@@ -184,6 +206,22 @@ Yii::app()->clientScript->registerScript('addNewApp', "
                                   var url = $(this).attr("href");
                                   var appId = getURLParameter(url, "appId");
                                   statusChange(appId);     
+                            }
+                            return false;
+                            }',
+                    ),
+                    'delete' => array(
+                        'label' => '',
+                        'imageUrl' => Yii::app()->request->baseUrl . '/images/trash.png',
+                        'url' => 'Yii::app()->createUrl("administrator/applications/delete", array("appId"=>$data->id))',
+                        'htmloptions' => array('style' => 'padding-left:10px;'),
+                        'options' => array('title' => 'Delete','class' => 'deleteCls'),
+                        'visible'=>'$data->id!=1',
+                        'click' => 'function(){
+                            if(confirm("Are you sure to delete this application?")){
+                                  var url = $(this).attr("href");
+                                  var appId = getURLParameter(url, "appId");
+                                  deleteApp(appId);     
                             }
                             return false;
                             }',

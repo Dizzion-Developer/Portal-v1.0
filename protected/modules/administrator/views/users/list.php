@@ -34,6 +34,28 @@
             }
         });
     }
+    //function to delete user
+    function deleteUser(userId) {
+        $.ajax({
+            url: '<?php echo Yii::app()->createUrl('administrator/users/delete/userId/') ?>' + '/' + userId,
+            type: 'GET',
+            dataType: 'JSON',
+            success: function(message) {
+                $.fn.yiiGridView.update('user-grid');
+                $('.alert-block').hide();
+                $('.custom-messages').show();
+                if (message.status == 'success') {
+                    $(".custom-error-flash-message").hide();
+                    $("#custom-flash-message").html(message.message);
+                    $(".custom-flash-message").show();
+                } else {
+                    $(".custom-flash-message").hide();
+                    $("#custom-error-flash-message").html(message.message);
+                    $(".custom-error-flash-message").show();
+                }
+            }
+        });
+    }
 </script>
 <!-- Navigation info -->
 <?php echo CommonFunction::getBreadCrum(array( 
@@ -134,7 +156,7 @@ Yii::app()->clientScript->registerScript('addNewUser', "
             ),
             array(
                 'class' => 'EBootstrapButtonColumn',
-                'template' => '{edit} {deactivate} {activate}',
+                'template' => '{edit} {deactivate} {activate} {delete}',
                 'header' => Yii::t('app', 'Actions'),
                 'buttons' => array(
                     'edit' => array(
@@ -173,6 +195,22 @@ Yii::app()->clientScript->registerScript('addNewUser', "
                                   var url = $(this).attr("href");
                                   var userId = getURLParameter(url, "userId");
                                   statusChange(userId);     
+                            }
+                            return false;
+                            }',
+                    ),
+                    'delete' => array(
+                        'label' => '',
+                        'imageUrl' => Yii::app()->request->baseUrl . '/images/trash.png',
+                        'url' => 'Yii::app()->createUrl("administrator/users/delete", array("userId"=>$data["id"]))',
+                        'htmloptions' => array('style' => 'padding-left:10px;'),
+                        'options' => array('title' => 'Delete', 'class' => 'deleteCls'),
+                        'visible' => '$data["id"]!=1',
+                        'click' => 'function(){
+                            if(confirm("Are you sure to delete this user?")){
+                                  var url = $(this).attr("href");
+                                  var userId = getURLParameter(url, "userId");
+                                  deleteUser(userId);     
                             }
                             return false;
                             }',

@@ -14,116 +14,112 @@
  * @property string $modified_by
  * @property string $modified_dt
  */
-class AppAccessForm extends AppAccess
-{
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @return AppAccess the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+class AppAccessForm extends AppAccess {
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'app_access';
-	}
+    /**
+     * Returns the static model of the specified AR class.
+     * @return AppAccess the static model class
+     */
+    public static function model($className = __CLASS__) {
+        return parent::model($className);
+    }
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return array(
-			array('access_id, org_id, created_by, modified_by', 'length', 'max'=>4),
-			array('status', 'length', 'max'=>1),
-			array('created_dt, modified_dt', 'safe'),
-			array('access_id, org_id, app_info_ids', 'required'),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
-			array('id, access_id, app_info_ids, org_id, status, created_by, created_dt, modified_by, modified_dt', 'safe', 'on'=>'search'),
-		);
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName() {
+        return 'app_access';
+    }
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-                    'AppAccessMasterForm'=>array(self::BELONGS_TO, 'AppAccessMasterForm', 'access_id'),
-                    'OrgMasterForm'=>array(self::BELONGS_TO, 'OrgMasterForm', 'org_id'),
-		);
-	}
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules() {
+        // NOTE: you should only define rules for those attributes that
+        // will receive user inputs.
+        return array(
+            array('access_id, org_id, created_by, modified_by', 'length', 'max' => 4),
+            array('status', 'length', 'max' => 1),
+            array('created_dt, modified_dt', 'safe'),
+            array('access_id, org_id, app_info_ids', 'required'),
+            // The following rule is used by search().
+            // Please remove those attributes that should not be searched.
+            array('id, access_id, app_info_ids, org_id, status, created_by, created_dt, modified_by, modified_dt', 'safe', 'on' => 'search'),
+        );
+    }
 
-        /**
-	 * @assign array of relational records.
-	 */
-        public function behaviors() {
-            return array(
-                'CSaveRelationsBehavior' => array(
-                    'class' => 'CSaveRelationsBehavior',
-                    'relations' => array(
-                    )
-                ),
-                /*'sluggable' => array(
-                    'class'=>'ext.behaviors.SluggableBehavior.SluggableBehavior',
-                    'columns' => array(''), //specify array of column names (eg: category/title)
-                    'unique' => true,
-                    'update' => true,
-                ),*/
-            );
-        }
+    /**
+     * @return array relational rules.
+     */
+    public function relations() {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return array(
+            'AppAccessMasterForm' => array(self::BELONGS_TO, 'AppAccessMasterForm', 'access_id'),
+            'OrgMasterForm' => array(self::BELONGS_TO, 'OrgMasterForm', 'org_id'),
+        );
+    }
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-			'id' => Yii::t('app', 'ID'),
-			'access_id' => Yii::t('app', 'Role'),
-			'app_info_ids' => Yii::t('app', 'App List'),
-			'org_id' => Yii::t('app', 'Organization Name'),
-			'status' => Yii::t('app', 'Status'),
-			'created_by' => Yii::t('app', 'Created By'),
-			'created_dt' => Yii::t('app', 'Created Dt'),
-			'modified_by' => Yii::t('app', 'Modified By'),
-			'modified_dt' => Yii::t('app', 'Modified Dt'),
-		);
-	}
+    /**
+     * @assign array of relational records.
+     */
+    public function behaviors() {
+        return array(
+            'CSaveRelationsBehavior' => array(
+                'class' => 'CSaveRelationsBehavior',
+                'relations' => array(
+                )
+            ),
+                /* 'sluggable' => array(
+                  'class'=>'ext.behaviors.SluggableBehavior.SluggableBehavior',
+                  'columns' => array(''), //specify array of column names (eg: category/title)
+                  'unique' => true,
+                  'update' => true,
+                  ), */
+        );
+    }
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
+    /**
+     * @return array customized attribute labels (name=>label)
+     */
+    public function attributeLabels() {
+        return array(
+            'id' => Yii::t('app', 'ID'),
+            'access_id' => Yii::t('app', 'Role'),
+            'app_info_ids' => Yii::t('app', 'App List'),
+            'org_id' => Yii::t('app', 'Organization Name'),
+            'status' => Yii::t('app', 'Status'),
+            'created_by' => Yii::t('app', 'Created By'),
+            'created_dt' => Yii::t('app', 'Created Dt'),
+            'modified_by' => Yii::t('app', 'Modified By'),
+            'modified_dt' => Yii::t('app', 'Modified Dt'),
+        );
+    }
 
-		$criteria=new CDbCriteria;
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     */
+    public function search() {
+        // Warning: Please modify the following code to remove attributes that
+        // should not be searched.
 
-		$criteria->compare('id',$this->id,true);
-		$criteria->compare('access_id',$this->access_id,true);
-		$criteria->compare('app_info_ids',$this->app_info_ids,true);
-		$criteria->compare('org_id',$this->org_id,true);
-		$criteria->compare('status',$this->status,true);
-		$criteria->compare('created_by',$this->created_by,true);
-		$criteria->compare('created_dt',$this->created_dt,true);
-		$criteria->compare('modified_by',$this->modified_by,true);
-		$criteria->compare('modified_dt',$this->modified_dt,true);
+        $criteria = new CDbCriteria;
 
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
-	}
+        $criteria->compare('id', $this->id, true);
+        $criteria->compare('access_id', $this->access_id, true);
+        $criteria->compare('app_info_ids', $this->app_info_ids, true);
+        $criteria->compare('org_id', $this->org_id, true);
+        $criteria->compare('status', $this->status, true);
+        $criteria->compare('created_by', $this->created_by, true);
+        $criteria->compare('created_dt', $this->created_dt, true);
+        $criteria->compare('modified_by', $this->modified_by, true);
+        $criteria->compare('modified_dt', $this->modified_dt, true);
+
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+        ));
+    }
+    
+
 }

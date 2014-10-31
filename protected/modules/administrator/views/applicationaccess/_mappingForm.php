@@ -1,7 +1,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $('#AppAccessForm_access_id').change(function() {
-            if ($(this).val() != '') {
+            if ($(this).val() != '') {                
                 $('#AppAccessForm_org_id').val('');
                 $('#AppAccessForm_org_id').attr('disabled', false);
                 $(".app_info_ids :input.activeChk").attr("disabled",true);
@@ -23,6 +23,10 @@
         
         if('<?php echo $type ?>'=='update'){
             $(".app_info_ids :input.activeChk").attr("disabled",false);
+        }
+        
+         if('<?php echo $type ?>'=='create'){
+            $("#AppAccessForm_org_id").attr("disabled",false);
         }
         
         if('<?php echo $model->id ?>'==1){

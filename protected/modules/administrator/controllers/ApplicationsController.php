@@ -233,4 +233,24 @@ class ApplicationsController extends AdministratorController {
         echo json_encode($response);
     }
 
+    public function actionDelete($appId) {
+        $transaction = Yii::app()->db->beginTransaction();
+        if (AppAccessForm::deleteAppApplication($appId)) {
+            if (AppInfoMasterForm::deleteApp($appId)) {
+                $transaction->commit();
+                $response['message'] = AppConstants::APP_DELETED_SUCCESS;
+                $response['status'] = 'success';
+            } else {
+                $transaction->rollback();
+                $response['message'] = ErrorConstants::APP_DELETED_FAILURE;
+                $response['status'] = 'failure';
+            }
+        } else {
+            $transaction->rollback();
+            $response['message'] = ErrorConstants::ERROR_IN_DELETION;
+            $response['status'] = 'failure';
+        }
+        echo json_encode($response);
+    }
+
 }
