@@ -29,12 +29,14 @@ class AppConstants {
     const APP_UPDATED_SUCCESS = 'Application information updated successfully.';
     const APP_DEACTIVATED_SUCCESS = 'Application deactivated successfully.';
     const APP_ACTIVATED_SUCCESS = 'Application activated successfully.';
+    const APP_DELETED_SUCCESS='Application deleted successfully';
     
     /* Organization Management */
     const ORG_SAVED_SUCCESS = 'Organization information saved successfully.';
     const ORG_UPDATED_SUCCESS = 'Organization information updated successfully.';
     const ORG_DEACTIVATED_SUCCESS = 'Organization deactivated successfully.';
     const ORG_ACTIVATED_SUCCESS = 'Organization activated successfully.';
+    const ORGANISATION_DELETED_SUCCESS='Organisation deleted successfully';
     
     const LOGO_UPLOAD_PATH = '/../files/orglogo/';
     const LOGO_MAX_HEIGHT = '70';
@@ -58,6 +60,7 @@ class AppConstants {
     const USER_UPDATED_SUCCESS = 'User information updated successfully.';
     const USER_DEACTIVATED_SUCCESS = 'User deactivated successfully.';
     const USER_ACTIVATED_SUCCESS = 'User activated successfully.';
+    const USER_DELETED_SUCCESS='User deleted successfully';
     
     const APP_ACCESS_NAME = 'app_access_name';
     const APP_ACCESS_MAPPING = 'app_access_mapping';
