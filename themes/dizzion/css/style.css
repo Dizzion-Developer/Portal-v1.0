@@ -92,7 +92,7 @@ footer{
 .requiredStar{
     color:#ff0000;
 }
-.editCls img,.deactivateCls img, .activateCls img{
+.editCls img,.deactivateCls img, .activateCls img,.deleteCls img{
     cursor:pointer;
     display:inline-block;
     text-align:center;
@@ -101,7 +101,7 @@ footer{
     background:#FF9C03;
     padding:4px;
 }
-.deactivateCls img, .activateCls img{
+.deactivateCls img, .activateCls img,.deleteCls img{
     background:#333333;
     padding:4px;
 }
@@ -1894,4 +1894,48 @@ and (max-width : 480px) {
     font-size: 12px;
     margin: 60px 0 0;
 }
+#sessionTimeOut.modal.fade{
+	top:32%;
+}
+#sessionTimeOut.modal .modal-footer{
+	text-align: center;
+}
 
+body .ui-widget-overlay{
+	background:#000;
+	opacity:0.7;
+}
+body .ui-dialog{
+	padding:5px;
+}
+.ui-dialog-buttonset .btn.btn-secondary,.ui-dialog-buttonset .btn.btn-primary{
+	padding:1px 11px;
+	color:#fff !important;
+}
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset{
+	float:none !important;
+	text-align:center;
+}
+body .ui-dialog .ui-dialog-buttonpane{
+	float:none;
+	text-align:center;
+	margin:0px;
+}
+.ui-dialog .ui-widget-header{
+	background:#fff;
+	border:none;
+	border-bottom:1px solid #ccc;
+	border-radius:0px;
+}
+.ui-widget-content{
+	border-color:#ccc;
+}
+body .ui-widget-header .ui-icon{
+    background:url(../../images/close.png) no-repeat 4px 3px transparent;
+}
+body .ui-widget-header .ui-icon{
+	display:none;
+}
+body .ui-dialog .ui-dialog-titlebar-close{
+	display:none;
+}
