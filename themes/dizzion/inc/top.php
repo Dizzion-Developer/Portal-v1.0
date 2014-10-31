@@ -3,7 +3,6 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
     <head>
         <meta charset="utf-8">
-
             <title><?php echo $template['title'] ?></title>
             <?php header('Cache-Control: max-age=900'); ?>
             <meta name="description" content="<?php echo $template['description'] ?>">
@@ -23,32 +22,44 @@
                                 <?php Yii::app()->getClientScript()->registerCssFile(Yii::app()->getAssetManager()->publish(Yii::app()->theme->basePath . '/css/main.css')); ?>
                                 <?php Yii::app()->getClientScript()->registerCssFile(Yii::app()->getAssetManager()->publish(Yii::app()->theme->basePath . '/css/style.css')); ?>
                                 <?php Yii::app()->getClientScript()->registerCssFile(Yii::app()->getAssetManager()->publish(Yii::app()->theme->basePath . '/css/screen.scss')); ?>
-
+                                <?php Yii::app()->getClientScript()->registerCssFile(Yii::app()->getAssetManager()->publish(Yii::app()->theme->basePath . '/css/dialogwarning.css')); ?>
                                 <!-- Core jQuery -->
                                 <?php Yii::app()->clientScript->registerCoreScript('jquery'); ?>
                                 <?php //Yii::app()->clientScript->registerScriptFile(Yii::app()->getAssetManager()->publish(Yii::app()->theme->basePath . '/js/vendor/jquery-1.9.1.min.js')); ?>
                                 <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->getAssetManager()->publish(Yii::app()->theme->basePath . '/js/vendor/bootstrap.min.js')); ?>
                                 <!-- Modernizr (Browser feature detection library) & Respond.js (Enable responsive CSS code on browsers that don't support them) -->
                                 <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->getAssetManager()->publish(Yii::app()->theme->basePath . '/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js')); ?>
+                                 <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->getAssetManager()->publish(Yii::app()->theme->basePath . '/js/jquery-ui-1.8.9.js')); ?>
+                                <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->getAssetManager()->publish(Yii::app()->theme->basePath . '/js/idletimeout.js')); ?>
+                                <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->getAssetManager()->publish(Yii::app()->theme->basePath . '/js/idletimer.js')); ?>
                                 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/common.js" type="text/javascript"></script>  
-                               <!--Loading css based on organization -->
+                                <!--Loading css based on organization -->
                                 <?php
                                 if (Yii::app()->session['theme'] == 'default') {
-                                     Yii::app()->getClientScript()->registerCssFile(Yii::app()->getAssetManager()->publish(Yii::app()->theme->basePath . '/css/'.Yii::app()->session['theme'].'.css'));
+                                    Yii::app()->getClientScript()->registerCssFile(Yii::app()->getAssetManager()->publish(Yii::app()->theme->basePath . '/css/' . Yii::app()->session['theme'] . '.css'));
                                 } else if (Yii::app()->session['theme'] == 'custom') {
                                     include Yii::app()->theme->basePath . '/css/custom.php';
                                 } else {
-                                   include Yii::app()->theme->basePath . '/css/colorThemes.php'; 
+                                    include Yii::app()->theme->basePath . '/css/colorThemes.php';
                                 }
                                 ?>
-                               <!--Loading css based on organization -->
+                                <!--Loading css based on organization -->
                                 </head>
-
+                               <script type="text/javascript">
+                                    var timeout = <?php echo Yii::app()->getSession()->getTimeout(); ?>;
+                                    var keep_alive_url = '<?php echo Yii::app()->createUrl('/site/keepalive'); ?>';
+                                    var logout_url = '<?php echo Yii::app()->createUrl('/site/logout'); ?>';
+                                </script>
                                 <body<?php if ($template['layout'] == 'fixed') echo ' class="fixed"'; ?>>
                                     <!-- Page Container -->
                                     <div id="page-container">
                                         <!-- Header -->
-                                        <header  class="navbar navbar-inverse<?php if ($template['header'] == 'fixed-top') echo ' navbar-fixed-top'; else if ($template['header'] == 'fixed-bottom') echo ' navbar-fixed-bottom'; ?>">
+                                        <header  class="navbar navbar-inverse<?php
+                                        if ($template['header'] == 'fixed-top')
+                                            echo ' navbar-fixed-top';
+                                        else if ($template['header'] == 'fixed-bottom')
+                                            echo ' navbar-fixed-bottom';
+                                        ?>">
                                             <!-- Navbar Inner -->
                                             <div id="topbar" class="navbar-inner remove-radius remove-box-shadow">
                                                 <!-- div#container-fluid -->
@@ -68,17 +79,17 @@
                                                     <!-- Logo -->
                                                     <?php
                                                     $logoDir = Yii::app()->basePath . AppConstants::LOGO_UPLOAD_PATH;
-                                                    if(Yii::app()->session['logo']!='' && file_exists($logoDir . Yii::app()->session['logo']))
-                                                            $logo = Yii::app()->assetManager->publish($logoDir . Yii::app()->session['logo']);
-                                                    else 
-                                                            $logo = Yii::app()->getAssetManager()->publish(Yii::app()->theme->basePath . '/img/template/logo.png');
-                                                     ?>
-<?php $dashboardUrl = (CommonFunction::getRole() == AppConstants::$ROLES['CUST']) ? 'user/authentication' : 'administrator/applications'; ?>
+                                                    if (Yii::app()->session['logo'] != '' && file_exists($logoDir . Yii::app()->session['logo']))
+                                                        $logo = Yii::app()->assetManager->publish($logoDir . Yii::app()->session['logo']);
+                                                    else
+                                                        $logo = Yii::app()->getAssetManager()->publish(Yii::app()->theme->basePath . '/img/template/logo.png');
+                                                    ?>
+                                                    <?php $dashboardUrl = (CommonFunction::getRole() == AppConstants::$ROLES['CUST']) ? 'user/authentication' : 'administrator/applications'; ?>
                                                     <a href="<?php echo Yii::app()->createUrl('/' . $dashboardUrl . '/dashboard'); ?>" class="brand"><img src="<?php echo $logo; ?>" alt="logo"></a>
                                                     <span class="slogan">Powered by Dizzion</span>
                                                     <!-- Loading Indicator, Used for demostrating how loading of widgets could happen, check main.js - uiDemo() -->
                                                     <div id="loading" class="hide pull-left"><i class="icon-certificate icon-spin"></i></div>
-                                                    
+
                                                     <!-- Application name-->
                                                     <span id="app_title"></span>
                                                     <!-- Application name-->
@@ -112,7 +123,77 @@
                                             <!-- END Navbar Inner -->
                                         </header>
                                         <!-- END Header -->
+                                        <!-- Session time out warning starts-->
+                                        <div id="dialog" title="Your session is about to expire!">
+                                                <p>
+                                                   <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span>
+                                                    You will be logged off in <span id="dialog-countdown" style="font-weight:bold"></span> seconds.
+                                                </p>
+
+                                                <p>Do you want to continue your session?</p>
+                                            </div>
+                                        <!-- Session time out warning ends-->
+
 
                                         <!-- Inner Container -->
                                         <div id="inner-container">
+
+
+<script type="text/javascript">
+// setup the dialog
+$("#dialog").dialog({
+	autoOpen: false,
+	modal: true,
+	width: 400,
+	height: 200,
+	closeOnEscape: false,
+	draggable: false,
+	resizable: false,
+	buttons: {		
+		'Logout': {
+                    class:"btn btn-secondary",
+                    text:"Logout",                            
+                    click:function(){
+			// fire whatever the configured onTimeout callback is.
+			// using .call(this) keeps the default behavior of "this" being the warning
+			// element (the dialog in this case) inside the callback.
+			$.idleTimeout.options.onTimeout.call(this);
+		}
+            },
+                'Keep Session Active': {
+                      class:"btn btn-primary",
+                      text: "Keep Session Active",
+                      click:  function(){
+                    
+			$(this).dialog('close');
+                        location.reload(true);
+                        
+		}
+            }
+	}
+});
+
+// cache a reference to the countdown element so we don't have to query the DOM for it on each ping.
+var $countdown = $("#dialog-countdown");
+
+// start the idle timer plugin
+$.idleTimeout('#dialog', 'div.ui-dialog-buttonpane button:first', {
+        warningLength:120,
+	idleAfter: timeout-120,
+	pollingInterval: 2,
+	keepAliveURL: keep_alive_url,
+	serverResponseEquals: 'OK',
+	onTimeout: function(){
+		window.location = logout_url;
+	},
+	onIdle: function(){
+		$(this).dialog("open");
+	},
+	onCountdown: function(counter){
+		$countdown.html(counter); // update the counter
+	}
+});
+
+</script>
+
 
