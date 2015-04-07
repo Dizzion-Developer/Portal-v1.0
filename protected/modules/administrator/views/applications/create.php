@@ -216,7 +216,7 @@ Yii::app()->clientScript->registerScript('addNewApp', "
                         'url' => 'Yii::app()->createUrl("administrator/applications/delete", array("appId"=>$data->id))',
                         'htmloptions' => array('style' => 'padding-left:10px;'),
                         'options' => array('title' => 'Delete','class' => 'deleteCls'),
-                        'visible'=>'$data->id!=1',
+               
                         'click' => 'function(){
                             if(confirm("Are you sure to delete this application?")){
                                   var url = $(this).attr("href");

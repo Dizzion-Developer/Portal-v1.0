@@ -1,0 +1,41 @@
+/*#inner-container {
+    background: none repeat scroll 0 0 #CCCCCC;
+}
+#primary-nav li a {
+    background-color: #888888;
+    color: #FFFFFF;
+    }
+#primary-nav li a:hover
+{
+	background:#FF9C03;
+}
+#primary-nav li a.active
+{
+	 background: none repeat scroll 0 0 #555;
+    border-left: 5px solid #FF9C03;
+    color: #FFFFFF;
+}*/
+#nav-info > li.active a {
+    color: #ff9c03;
+}
+.btn {
+    background: none repeat scroll 0 0 #ff9c03 !important;
+    color:#fff;
+}
+.btn.btn-secondary {
+    background: none repeat scroll 0 0 #666666 !important;
+}
+
+.editCls.text-center img {
+    background: none repeat scroll 0 0 #FF9c03;
+}
+.fg-button.ui-button.ui-state-default.ui-state-disabled {
+    background: none repeat scroll 0 0 #ff9c03;
+    color: #FFFFFF !important;
+    opacity: 1;
+}
+.pagination .yiiPager > .selected > a, .pagination .yiiPager > .selected > a:hover, .pagination .yiiPager > .selected > span {
+    background-color: #FF9C03;
+    border: 1px solid #FF9C03;
+    color: #FFFFFF;
+}
